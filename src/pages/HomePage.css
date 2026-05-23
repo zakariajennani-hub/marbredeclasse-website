@@ -1,0 +1,464 @@
+.home-page {
+  background: #f8f4ec;
+  color: #111;
+}
+
+/* HERO */
+.home-hero {
+  min-height: 82vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 7vw 80px;
+  background:
+    radial-gradient(circle at top right, rgba(200, 164, 93, 0.22), transparent 35%),
+    linear-gradient(180deg, #fffaf0 0%, #f8f4ec 100%);
+}
+
+.home-hero-content {
+  max-width: 850px;
+}
+
+.home-hero-content span,
+.home-section-title span,
+.home-product-card span,
+.home-footer h4 {
+  color: var(--mdc-gold-dark);
+  font-size: 13px;
+  letter-spacing: 6px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.home-hero-content h1 {
+  font-size: clamp(58px, 7vw, 118px);
+  line-height: 0.9;
+  margin: 25px 0;
+  font-weight: 950;
+  letter-spacing: -4px;
+}
+
+.home-hero-content p {
+  max-width: 680px;
+  color: #666;
+  font-size: 20px;
+  line-height: 1.9;
+}
+
+.home-hero-actions {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+}
+
+.home-primary-btn,
+.home-secondary-btn,
+.home-center-action a {
+  border-radius: 999px;
+  padding: 18px 30px;
+  font-weight: 950;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.home-primary-btn,
+.home-center-action a {
+  background: var(--mdc-gold);
+  color: #111;
+}
+
+.home-secondary-btn {
+  background: #fff;
+  color: #111;
+  border: 1px solid var(--mdc-border);
+}
+
+.home-primary-btn:hover,
+.home-secondary-btn:hover,
+.home-center-action a:hover {
+  transform: translateY(-2px);
+}
+
+/* SHARED SECTIONS */
+.home-univers-section,
+.home-bestsellers-section,
+.home-testimonials-section,
+.home-faq-section {
+  padding: 80px 7vw 110px;
+}
+
+.home-section-title {
+  max-width: 920px;
+  margin-bottom: 46px;
+}
+
+.home-section-title h2 {
+  font-size: clamp(46px, 6vw, 92px);
+  line-height: 0.95;
+  margin: 22px 0 0;
+  font-weight: 950;
+  letter-spacing: -3px;
+}
+
+/* UNIVERS */
+.home-univers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+}
+
+.home-univers-card {
+  background: #fff;
+  border: 1px solid var(--mdc-border);
+  border-radius: 34px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #111;
+  box-shadow: var(--mdc-shadow);
+  transition: 0.28s ease;
+}
+
+.home-univers-card:hover {
+  transform: translateY(-6px);
+}
+
+.home-univers-image {
+  height: 310px;
+  overflow: hidden;
+}
+
+.home-univers-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.35s ease;
+}
+
+.home-univers-card:hover img {
+  transform: scale(1.05);
+}
+
+.home-univers-content {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 18px;
+  padding: 30px;
+  align-items: start;
+}
+
+.home-univers-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(200, 164, 93, 0.16);
+  color: var(--mdc-gold-dark);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.home-univers-content h3 {
+  font-size: 30px;
+  margin: 0 0 12px;
+  font-weight: 950;
+}
+
+.home-univers-content p {
+  color: #666;
+  line-height: 1.7;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* BESTSELLERS */
+.home-bestsellers-section {
+  background: #fff;
+}
+
+.home-products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+}
+
+.home-product-card {
+  background: #fff;
+  border: 1px solid var(--mdc-border);
+  border-radius: 34px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #111;
+  box-shadow: var(--mdc-shadow);
+  transition: 0.28s ease;
+}
+
+.home-product-card:hover {
+  transform: translateY(-6px);
+}
+
+.home-product-card img {
+  width: 100%;
+  height: 290px;
+  object-fit: cover;
+  display: block;
+}
+
+.home-product-card div {
+  padding: 28px;
+}
+
+.home-product-card h3 {
+  font-size: 30px;
+  margin: 14px 0 12px;
+  font-weight: 950;
+}
+
+.home-product-card p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.home-product-card strong {
+  color: #111;
+}
+
+.home-center-action {
+  margin-top: 42px;
+  display: flex;
+  justify-content: center;
+}
+
+/* TESTIMONIALS */
+.home-testimonials-section {
+  background:
+    radial-gradient(circle at top left, rgba(200, 164, 93, 0.12), transparent 35%),
+    #f8f4ec;
+}
+
+.home-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.home-testimonial-card {
+  background: #fff;
+  border: 1px solid var(--mdc-border);
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: var(--mdc-shadow);
+}
+
+.home-testimonial-card p {
+  color: #555;
+  line-height: 1.8;
+  font-size: 18px;
+  margin: 0 0 22px;
+}
+
+.home-testimonial-card strong {
+  color: #111;
+  font-weight: 950;
+}
+
+/* FAQ */
+.home-faq-section {
+  background: #fff;
+}
+
+.home-faq-list {
+  display: grid;
+  gap: 16px;
+}
+
+.home-faq-list details {
+  background: var(--mdc-bg-soft);
+  border: 1px solid var(--mdc-border);
+  border-radius: 24px;
+  padding: 22px 26px;
+}
+
+.home-faq-list summary {
+  cursor: pointer;
+  color: #111;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.home-faq-list p {
+  color: #666;
+  line-height: 1.8;
+  margin: 16px 0 0;
+}
+
+/* FOOTER */
+.home-footer {
+  background: #0d0d0d;
+  color: #fff;
+  padding: 70px 7vw 34px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr 1.2fr;
+  gap: 34px;
+}
+
+.home-footer h3 {
+  font-size: 28px;
+  margin: 0 0 18px;
+  letter-spacing: 3px;
+}
+
+.home-footer h4 {
+  margin: 0 0 20px;
+}
+
+.home-footer p,
+.home-footer a {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.9;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.home-footer a:hover {
+  color: var(--mdc-gold);
+}
+
+.home-footer-bottom {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 24px;
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1150px) {
+  .home-univers-grid,
+  .home-products-grid,
+  .home-testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-footer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .home-hero {
+    padding: 90px 22px 60px;
+    min-height: auto;
+  }
+
+  .home-univers-section,
+  .home-bestsellers-section,
+  .home-testimonials-section,
+  .home-faq-section {
+    padding: 60px 22px 80px;
+  }
+
+  .home-univers-grid,
+  .home-products-grid,
+  .home-testimonials-grid,
+  .home-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .home-univers-image,
+  .home-product-card img {
+    height: 260px;
+  }
+
+  .home-univers-content {
+    grid-template-columns: 1fr;
+  }
+
+  .home-section-title h2,
+  .home-hero-content h1 {
+    letter-spacing: -2px;
+  }
+}
+/* HERO WITH BACKGROUND IMAGE */
+.home-hero-with-image {
+  position: relative;
+  min-height: 820px;
+  padding: 150px 7vw 120px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #f8f4ec;
+}
+
+.home-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.home-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(248, 244, 236, 0.96) 0%,
+    rgba(248, 244, 236, 0.88) 32%,
+    rgba(248, 244, 236, 0.38) 58%,
+    rgba(248, 244, 236, 0.05) 100%
+  );
+}
+
+.home-hero-with-image .home-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+}
+
+.home-hero-with-image .home-hero-content h1 {
+  font-size: clamp(54px, 6.5vw, 108px);
+}
+
+.home-hero-with-image .home-hero-content p {
+  max-width: 620px;
+}
+
+/* MOBILE HERO */
+@media (max-width: 760px) {
+  .home-hero-with-image {
+    min-height: 720px;
+    padding: 120px 22px 80px;
+    align-items: flex-end;
+  }
+
+  .home-hero-bg img {
+    object-position: center right;
+  }
+
+  .home-hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(248, 244, 236, 0.22) 0%,
+      rgba(248, 244, 236, 0.7) 45%,
+      rgba(248, 244, 236, 0.96) 100%
+    );
+  }
+
+  .home-hero-with-image .home-hero-content h1 {
+    font-size: clamp(42px, 13vw, 64px);
+    letter-spacing: -2px;
+  }
+
+  .home-hero-with-image .home-hero-content p {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+}

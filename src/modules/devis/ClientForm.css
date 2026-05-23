@@ -1,0 +1,86 @@
+.client-form-section {
+  margin-top: 90px;
+  background: #141414;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  padding: 34px;
+}
+
+.client-form-header {
+  max-width: 760px;
+  margin-bottom: 34px;
+}
+
+.client-form-header span {
+  color: #c9a45c;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.client-form-header h2 {
+  font-size: 42px;
+  margin: 12px 0 18px;
+  color: white;
+}
+
+.client-form-header p {
+  color: #b9b9b9;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.client-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.client-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #d7d7d7;
+  font-size: 14px;
+}
+
+.client-form-grid input,
+.client-form-grid textarea {
+  background: #0d0d0d;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 16px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.client-form-grid input:focus,
+.client-form-grid textarea:focus {
+  border-color: #c9a45c;
+}
+
+.client-note {
+  grid-column: span 2;
+}
+
+.client-note textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+@media (max-width: 800px) {
+  .client-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-note {
+    grid-column: span 1;
+  }
+
+  .client-form-header h2 {
+    font-size: 34px;
+  }
+}

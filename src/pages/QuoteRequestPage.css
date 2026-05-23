@@ -1,0 +1,239 @@
+.quote-request-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(200, 164, 93, 0.14), transparent 30%),
+    linear-gradient(180deg, #f8f4ec 0%, #ffffff 50%, #f6f1e8 100%);
+  color: var(--mdc-text);
+  padding: 70px 0 90px;
+}
+
+.quote-request-card {
+  width: min(1200px, calc(100% - 10vw));
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--mdc-border);
+  border-radius: 38px;
+  box-shadow: var(--mdc-shadow);
+  padding: 44px;
+}
+
+.quote-request-header span,
+.quote-order-summary > span {
+  color: var(--mdc-gold-dark);
+  font-size: 12px;
+  letter-spacing: 5px;
+  font-weight: 950;
+}
+
+.quote-request-header h1 {
+  margin: 18px 0;
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 0.95;
+  color: #111;
+}
+
+.quote-request-header p {
+  color: #666;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.quote-order-summary {
+  margin-top: 34px;
+  background: var(--mdc-bg-soft);
+  border: 1px solid var(--mdc-border);
+  border-radius: 30px;
+  padding: 30px;
+}
+
+.quote-order-summary h3 {
+  color: #111;
+  font-size: 34px;
+  margin: 16px 0 24px;
+}
+
+.quote-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.quote-summary-grid > div {
+  background: #fff;
+  border: 1px solid var(--mdc-border);
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.quote-summary-grid small {
+  display: block;
+  color: #777;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.quote-summary-grid strong {
+  color: #111;
+  font-size: 20px;
+}
+
+.quote-summary-total {
+  background: linear-gradient(135deg, var(--mdc-gold), var(--mdc-gold-dark)) !important;
+}
+
+.quote-summary-total small,
+.quote-summary-total strong {
+  color: #111 !important;
+}
+
+.quote-lines {
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.quote-line {
+  background: #fff;
+  border: 1px solid var(--mdc-border);
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.quote-line strong {
+  display: block;
+  color: #111;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.quote-line p {
+  margin: 0;
+  color: #666;
+  line-height: 1.8;
+}
+
+.quote-actions-top {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.quote-actions-top a,
+.quote-actions-top button,
+.quote-empty a {
+  background: #fff;
+  color: #111;
+  border: 1px solid var(--mdc-border);
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.quote-actions-top a:hover,
+.quote-actions-top button:hover,
+.quote-empty a:hover {
+  background: var(--mdc-gold);
+  border-color: var(--mdc-gold);
+  transform: translateY(-2px);
+}
+
+.quote-form-grid {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.quote-form-grid label {
+  color: #111;
+  font-weight: 900;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quote-form-grid input,
+.quote-form-grid textarea {
+  width: 100%;
+  background: var(--mdc-bg-soft);
+  border: 1px solid var(--mdc-border);
+  color: #111;
+  border-radius: 18px;
+  padding: 18px;
+  font-size: 15px;
+  outline: none;
+}
+
+.quote-form-grid input:focus,
+.quote-form-grid textarea:focus {
+  border-color: var(--mdc-gold);
+  box-shadow: 0 0 0 4px rgba(200, 164, 93, 0.14);
+}
+
+.quote-note {
+  grid-column: 1 / -1;
+}
+
+.quote-note textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.quote-whatsapp-btn {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  background: #25d366;
+  color: #111;
+  text-decoration: none;
+
+  border-radius: 999px;
+  padding: 20px 28px;
+
+  font-size: 17px;
+  font-weight: 950;
+  transition: 0.25s ease;
+}
+
+.quote-whatsapp-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.quote-empty {
+  margin-top: 34px;
+  background: var(--mdc-bg-soft);
+  border: 1px solid var(--mdc-border);
+  border-radius: 30px;
+  padding: 32px;
+}
+
+.quote-empty h3 {
+  margin: 0 0 10px;
+  color: #111;
+  font-size: 28px;
+}
+
+.quote-empty p {
+  color: #666;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .quote-request-card {
+    width: calc(100% - 36px);
+    padding: 28px 20px;
+  }
+
+  .quote-summary-grid,
+  .quote-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

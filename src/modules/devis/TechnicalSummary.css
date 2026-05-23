@@ -1,0 +1,128 @@
+.technical-summary {
+  margin-top: 90px;
+  background: #141414;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  padding: 34px;
+}
+
+.summary-header {
+  max-width: 760px;
+  margin-bottom: 34px;
+}
+
+.summary-header span {
+  color: #c9a45c;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.summary-header h2 {
+  font-size: 42px;
+  margin: 12px 0 18px;
+  color: white;
+}
+
+.summary-header p {
+  color: #b9b9b9;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.summary-card {
+  background: #0d0d0d;
+  border-radius: 22px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.summary-card span {
+  display: block;
+  color: #9f9f9f;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.summary-card strong {
+  display: block;
+  font-size: 24px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.summary-card p {
+  color: #bcbcbc;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.summary-total {
+  margin-top: 30px;
+  background: linear-gradient(135deg, #c9a45c, #8d6c2f);
+  border-radius: 24px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.summary-total span {
+  display: block;
+  color: rgba(0,0,0,0.7);
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.summary-total strong {
+  font-size: 40px;
+  color: #111;
+}
+
+.whatsapp-devis-btn {
+  text-decoration: none;
+  background: #111;
+  color: white;
+  padding: 18px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.whatsapp-devis-btn:hover {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 1000px) {
+  .summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-total {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .summary-total strong {
+    font-size: 30px;
+  }
+
+  .summary-header h2 {
+    font-size: 34px;
+  }
+}

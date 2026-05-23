@@ -1,0 +1,87 @@
+.floor-client-form {
+  margin-top: 40px;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  padding: 32px;
+}
+
+.floor-client-header {
+  margin-bottom: 28px;
+}
+
+.floor-client-header span {
+  color: #c8a45d;
+  font-size: 12px;
+  letter-spacing: 4px;
+  font-weight: 700;
+}
+
+.floor-client-header h3 {
+  color: white;
+  font-size: 30px;
+  margin: 14px 0;
+}
+
+.floor-client-header p {
+  color: #b9b9b9;
+  line-height: 1.8;
+  max-width: 720px;
+}
+
+.floor-client-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.floor-client-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: white;
+  font-weight: 600;
+}
+
+.floor-client-grid input,
+.floor-client-grid textarea {
+  background: #0d0d0d;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  color: white;
+  padding: 18px;
+  font-size: 15px;
+  outline: none;
+}
+
+.floor-client-grid input {
+  height: 62px;
+}
+
+.floor-client-grid textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.floor-client-grid input:focus,
+.floor-client-grid textarea:focus {
+  border-color: #c8a45d;
+}
+
+.floor-client-note {
+  grid-column: span 2;
+}
+
+@media (max-width: 980px) {
+  .floor-client-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .floor-client-note {
+    grid-column: span 1;
+  }
+
+  .floor-client-header h3 {
+    font-size: 24px;
+  }
+}

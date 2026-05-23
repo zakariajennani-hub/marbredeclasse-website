@@ -1,0 +1,181 @@
+.navbar-premium {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  width: min(1180px, calc(100% - 56px));
+  margin: 18px auto 0;
+  padding: 24px 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(200, 164, 93, 0.22);
+  box-shadow: 0 24px 70px rgba(20, 20, 20, 0.08);
+  backdrop-filter: blur(18px);
+  display: grid;
+  grid-template-columns: 280px 1fr auto;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-logo-text {
+  text-decoration: none;
+  color: var(--mdc-gold-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #111;
+  font-size: 15px;
+  font-weight: 900;
+  transition: 0.2s ease;
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: var(--mdc-gold-dark);
+}
+
+.navbar-quote-btn {
+  text-decoration: none;
+  background: var(--mdc-gold);
+  color: #111;
+  border-radius: 999px;
+  padding: 15px 24px;
+  font-weight: 950;
+  transition: 0.25s ease;
+  white-space: nowrap;
+}
+
+.navbar-quote-btn:hover {
+  background: var(--mdc-gold-dark);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.navbar-menu-btn {
+  display: none;
+  border: none;
+  background: transparent;
+  color: #111;
+  font-size: 30px;
+  font-weight: 950;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  line-height: 1;
+}
+
+/* TABLET */
+@media (max-width: 1050px) {
+  .navbar-premium {
+    width: calc(100% - 36px);
+    grid-template-columns: 230px 1fr auto;
+    gap: 16px;
+  }
+
+  .navbar-logo-text {
+    font-size: 18px;
+    letter-spacing: 4px;
+  }
+
+  .navbar-links {
+    gap: 16px;
+  }
+
+  .navbar-quote-btn {
+    padding: 13px 18px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 760px) {
+  .navbar-premium {
+    top: 6px;
+    width: calc(100% - 28px);
+    margin-top: 12px;
+    padding: 16px 14px;
+    border-radius: 24px;
+    grid-template-columns: 44px 1fr;
+    gap: 10px;
+  }
+
+  .navbar-menu-btn {
+    display: grid;
+    place-items: center;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .navbar-logo-text {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+
+  .navbar-quote-btn {
+    display: none;
+  }
+
+  .navbar-links {
+    grid-column: 1 / -1;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(200, 164, 93, 0.2);
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .navbar-links a {
+    padding: 16px 10px;
+    border-radius: 16px;
+    font-size: 17px;
+    text-align: left;
+  }
+
+  .navbar-links a:hover,
+  .navbar-links a.active {
+    background: rgba(200, 164, 93, 0.12);
+  }
+
+  .navbar-links::after {
+    content: "Demander un devis";
+    display: block;
+    margin-top: 12px;
+    background: var(--mdc-gold);
+    color: #111;
+    border-radius: 999px;
+    padding: 16px 20px;
+    text-align: center;
+    font-weight: 950;
+  }
+}
+
+@media (max-width: 430px) {
+  .navbar-logo-text {
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+}

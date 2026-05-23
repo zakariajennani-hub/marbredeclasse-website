@@ -1,0 +1,177 @@
+.devis-print-section {
+  margin-top: 90px;
+  background: #141414;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  padding: 34px;
+}
+
+.devis-print-header {
+  max-width: 760px;
+  margin-bottom: 34px;
+}
+
+.devis-print-header span {
+  color: #c9a45c;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.devis-print-header h2 {
+  font-size: 42px;
+  margin: 12px 0 18px;
+  color: white;
+}
+
+.devis-print-header p {
+  color: #b9b9b9;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.devis-preview {
+  background: white;
+  color: #111;
+  border-radius: 24px;
+  padding: 38px;
+}
+
+.devis-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 2px solid #111;
+  padding-bottom: 24px;
+  margin-bottom: 28px;
+}
+
+.devis-top h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: 2px;
+}
+
+.devis-top p {
+  margin: 8px 0 0;
+  color: #555;
+}
+
+.devis-meta {
+  text-align: right;
+}
+
+.devis-meta strong {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.devis-block {
+  margin-bottom: 24px;
+}
+
+.devis-block h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.devis-block p {
+  margin: 6px 0;
+  color: #333;
+}
+
+.devis-block table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.devis-block th,
+.devis-block td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.devis-block th {
+  background: #111;
+  color: white;
+}
+
+.devis-total-print {
+  margin-top: 30px;
+  background: #111;
+  color: white;
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.devis-total-print span {
+  font-size: 16px;
+  color: #c9a45c;
+}
+
+.devis-total-print strong {
+  font-size: 32px;
+}
+
+.devis-note {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #f4f4f4;
+}
+
+.devis-note p {
+  margin-bottom: 0;
+}
+
+.print-devis-btn {
+  margin-top: 28px;
+  border: none;
+  background: #c9a45c;
+  color: #111;
+  padding: 18px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #devis-preview,
+  #devis-preview * {
+    visibility: visible;
+  }
+
+  #devis-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .devis-top {
+    flex-direction: column;
+  }
+
+  .devis-meta {
+    text-align: left;
+  }
+
+  .devis-preview {
+    padding: 24px;
+  }
+}

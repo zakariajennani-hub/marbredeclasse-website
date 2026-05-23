@@ -1,0 +1,65 @@
+.floor-quote-actions {
+  margin-top: 40px;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.floor-quote-actions span {
+  color: #c8a45d;
+  font-size: 12px;
+  letter-spacing: 4px;
+  font-weight: 700;
+}
+
+.floor-quote-actions h3 {
+  color: white;
+  font-size: 32px;
+  margin: 14px 0;
+}
+
+.floor-quote-actions p {
+  color: #b9b9b9;
+  line-height: 1.8;
+  max-width: 720px;
+}
+
+.floor-whatsapp-btn {
+  min-width: 260px;
+  height: 64px;
+  border-radius: 18px;
+  background: #25d366;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  padding: 0 28px;
+}
+
+.floor-whatsapp-btn:hover {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 980px) {
+  .floor-quote-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .floor-whatsapp-btn {
+    width: 100%;
+  }
+
+  .floor-quote-actions h3 {
+    font-size: 26px;
+  }
+}

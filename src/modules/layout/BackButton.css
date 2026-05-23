@@ -1,0 +1,27 @@
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 28px;
+  padding: 13px 20px;
+
+  background: #ffffff;
+  color: var(--mdc-text);
+
+  border: 1px solid var(--mdc-border);
+  border-radius: 999px;
+
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.25s ease;
+
+  box-shadow: 0 12px 30px rgba(40, 30, 15, 0.08);
+}
+
+.back-button:hover {
+  background: var(--mdc-gold);
+  color: #111;
+  border-color: var(--mdc-gold);
+  transform: translateX(-3px);
+}
