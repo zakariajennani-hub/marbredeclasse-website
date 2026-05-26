@@ -242,9 +242,11 @@ export default function HomePage() {
 
         <div>
           <h4>A propos</h4>
-          <Link to="/about">Qui sommes-nous</Link>
-          <Link to="/privacy">Politique de confidentialité</Link>
-          <Link to="/terms">Conditions d’utilisation</Link>
+          <Link to="/qui-sommes-nous">Qui sommes-nous</Link>
+          <Link to="/politique-confidentialite">
+            Politique de confidentialité
+          </Link>
+          <Link to="/conditions-utilisation">Conditions d’utilisation</Link>
         </div>
 
         <div>
