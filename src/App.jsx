@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./modules/layout/Navbar";
@@ -13,7 +14,13 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import FabricatedProductDetailsPage from "./pages/FabricatedProductDetailsPage";
 
+import { initPixel } from "./utils/metaPixel";
+
 export default function App() {
+  useEffect(() => {
+    initPixel();
+  }, []);
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -24,34 +31,21 @@ export default function App() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
 
-        <Route
-          path="/produits"
-          element={<FabricatedProductDetailsPage />}
-        />
-
-        <Route
-          path="/produits/:id"
-          element={<FabricatedProductDetailsPage />}
-        />
+        <Route path="/produits" element={<FabricatedProductDetailsPage />} />
+        <Route path="/produits/:id" element={<FabricatedProductDetailsPage />} />
 
         <Route path="/devis" element={<QuoteRequestPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/services" element={<ServicesPage />} />
 
-        <Route
-          path="/qui-sommes-nous"
-          element={<AboutPage />}
-        />
+        <Route path="/qui-sommes-nous" element={<AboutPage />} />
 
         <Route
           path="/politique-confidentialite"
           element={<PrivacyPolicyPage />}
         />
 
-        <Route
-          path="/conditions-utilisation"
-          element={<TermsPage />}
-        />
+        <Route path="/conditions-utilisation" element={<TermsPage />} />
       </Routes>
     </BrowserRouter>
   );
