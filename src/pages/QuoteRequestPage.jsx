@@ -328,15 +328,19 @@ Merci de me contacter pour confirmer les détails.
           </label>
         </div>
 
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noreferrer"
-          className="quote-whatsapp-btn"
-          onClick={handleWhatsAppQuoteClick}
-        >
-          Envoyer via WhatsApp
-        </a>
+        <button
+  type="button"
+  className="quote-whatsapp-btn"
+  onClick={() => {
+    handleWhatsAppQuoteClick();
+
+    setTimeout(() => {
+      window.open(whatsappLink, "_blank", "noreferrer");
+    }, 500);
+  }}
+>
+  Envoyer via WhatsApp
+</button>
       </section>
     </main>
   );
