@@ -18,8 +18,13 @@ export default function QuoteRequestPage() {
 
   useEffect(() => {
     const savedOrder = localStorage.getItem("marbre_devis_order");
+
     if (savedOrder) {
-      setOrder(JSON.parse(savedOrder));
+      try {
+        setOrder(JSON.parse(savedOrder));
+      } catch {
+        localStorage.removeItem("marbre_devis_order");
+      }
     }
   }, []);
 
@@ -33,33 +38,36 @@ export default function QuoteRequestPage() {
   };
 
   const money = (value) => {
-    return Math.round(Number(value || 0)).toLocaleString() + " MAD";
+    return Math.round(Number(value || 0)).toLocaleString("fr-FR") + " MAD";
   };
 
   const orderText = useMemo(() => {
     if (!order) return "Aucune configuration enregistrée.";
 
-    const linesText = order.lines
-      ?.map((line, index) => {
-        return `
+    const linesText =
+      order.lines
+        ?.map((line, index) => {
+          return `
 ${index + 1}) ${order.product?.name || "-"} — ${line.finish || "-"} — ${
-          line.format || "-"
-        }
-   Surface à couvrir : ${Number(line.clientSurface || 0).toFixed(2)} m²
-   Surface recommandée : ${Number(line.recommendedSurface || 0).toFixed(2)} m²
-   Nombre de pièces : ${line.piecesNeeded || 0}
-   Mètre linéaire : ${Number(line.rowLinearMeters || 0).toFixed(2)} ml
-   Marge de perte : ${line.lossEnabled ? `${line.lossMargin}%` : "Non activée"}
-   Marge de sécurité : ${
-     line.securityEnabled ? `${line.securityMargin}%` : "Non activée"
-   }
-   Pose sur cette ligne : ${line.linePoseEnabled ? "Oui" : "Non"}
-   Surface pose ligne : ${Number(line.linePoseSurface || 0).toFixed(2)} m²
-   Prix / m² : ${line.pricePerM2 || 0} MAD
-   Total ligne : ${money(line.rowPrice)}
+            line.format || "-"
+          }
+Surface à couvrir : ${Number(line.clientSurface || 0).toFixed(2)} m²
+Surface recommandée : ${Number(line.recommendedSurface || 0).toFixed(2)} m²
+Nombre de pièces : ${line.piecesNeeded || 0}
+Mètre linéaire : ${Number(line.rowLinearMeters || 0).toFixed(2)} ml
+Marge de perte : ${
+            line.lossEnabled ? `${line.lossMargin}%` : "Non activée"
+          }
+Marge de sécurité : ${
+            line.securityEnabled ? `${line.securityMargin}%` : "Non activée"
+          }
+Pose sur cette ligne : ${line.linePoseEnabled ? "Oui" : "Non"}
+Surface pose ligne : ${Number(line.linePoseSurface || 0).toFixed(2)} m²
+Prix / m² : ${line.pricePerM2 || 0} MAD
+Total ligne : ${money(line.rowPrice)}
 `;
-      })
-      .join("\n");
+        })
+        .join("\n") || "-";
 
     return `
 DEMANDE DE DEVIS - MARBRE DE CLASSE
@@ -96,14 +104,17 @@ Type de pose : ${
           : "Pose marbre"
         : "-"
     }
+
 Surface totale de pose : ${
       order.services?.pose
         ? Number(order.services.poseSurface || 0).toFixed(2) + " m²"
         : "-"
     }
+
 Prix pose / m² : ${
       order.services?.pose ? `${order.services.posePricePerM2} MAD` : "-"
     }
+
 Prix pose : ${money(order.services?.posePrice)}
 
 TOTAL
@@ -123,6 +134,20 @@ TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
 `;
   }, [order, client]);
 
+  const message = `
+Bonjour MARBRE DE CLASSE,
+
+Je souhaite finaliser cette demande de devis :
+
+${orderText}
+
+Merci de me contacter pour confirmer les détails.
+`;
+
+  const whatsappLink = `https://wa.me/212604982455?text=${encodeURIComponent(
+    message
+  )}`;
+
   const handleWhatsAppQuoteClick = () => {
     console.log("DEVIS BUTTON CLICKED");
 
@@ -140,7 +165,9 @@ TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
       city: client.city,
     });
 
-    alert("تم إرسال أحداث Pixel بنجاح. لم نفتح WhatsApp في هذا الاختبار.");
+    setTimeout(() => {
+      window.location.href = whatsappLink;
+    }, 1500);
   };
 
   return (
@@ -171,7 +198,10 @@ TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
               <div>
                 <small>Surface recommandée</small>
                 <strong>
-                  {Number(order.totals?.totalRecommendedSurface || 0).toFixed(2)} m²
+                  {Number(order.totals?.totalRecommendedSurface || 0).toFixed(
+                    2
+                  )}{" "}
+                  m²
                 </strong>
               </div>
 
@@ -220,7 +250,8 @@ TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
                     {line.securityEnabled ? `${line.securityMargin}%` : "Non"} ·
                     Pose: {line.linePoseEnabled ? "Oui" : "Non"} · Surface pose:{" "}
                     {Number(line.linePoseSurface || 0).toFixed(2)} m² ·
-                    Recommandée: {Number(line.recommendedSurface || 0).toFixed(2)} m² ·{" "}
+                    Recommandée:{" "}
+                    {Number(line.recommendedSurface || 0).toFixed(2)} m² ·{" "}
                     {line.piecesNeeded || 0} pièces ·{" "}
                     {Number(line.rowLinearMeters || 0).toFixed(2)} ml ·{" "}
                     {money(line.rowPrice)}
@@ -230,7 +261,9 @@ TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
             </div>
 
             <div className="quote-actions-top">
-              <Link to={`/products/${order.product?.id}`}>Retour au produit</Link>
+              <Link to={`/products/${order.product?.id}`}>
+                Retour au produit
+              </Link>
 
               <button type="button" onClick={clearOrder}>
                 Vider la demande
