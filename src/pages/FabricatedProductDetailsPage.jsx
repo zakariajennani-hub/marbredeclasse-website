@@ -3,14 +3,22 @@ import { useParams } from "react-router-dom";
 
 import fabricatedProducts from "../data/fabricatedProducts";
 
+import {
+  trackViewContent,
+  trackAddToCart,
+  trackInitiateCheckout,
+  trackLead,
+  trackWhatsAppClick,
+} from "../utils/metaPixel";
+
 import "./FabricatedProductDetailsPage.css";
 
 export default function FabricatedProductDetailsPage() {
-const { id } = useParams();
+  const { id } = useParams();
 
-const productId = id || "table-salle-a-manger-sur-mesure";
+  const productId = id || "table-salle-a-manger-sur-mesure";
 
-const product = fabricatedProducts.find((item) => item.id === productId);
+  const product = fabricatedProducts.find((item) => item.id === productId);
 
   const [activeImage, setActiveImage] = useState("");
   const [showOrderForm, setShowOrderForm] = useState(false);
@@ -22,6 +30,13 @@ const product = fabricatedProducts.find((item) => item.id === productId);
   useEffect(() => {
     if (product) {
       setActiveImage(product.gallery?.[0] || product.image || "");
+
+      trackViewContent({
+        productName: product.name,
+        productId: product.id,
+        category: product.category || "Produit fabriqué",
+        value: product.price || 0,
+      });
     }
   }, [product]);
 
@@ -29,8 +44,38 @@ const product = fabricatedProducts.find((item) => item.id === productId);
     return <div className="fabricated-not-found">Produit introuvable</div>;
   }
 
+  const handleBuyClick = () => {
+    trackAddToCart({
+      value: product.price || 0,
+      productName: product.name,
+      productId: product.id,
+      quantity: 1,
+      category: product.category || "Produit fabriqué",
+    });
+
+    trackInitiateCheckout({
+      value: product.price || 0,
+      itemsCount: 1,
+      source: "Produit fabriqué",
+    });
+
+    setShowOrderForm((prev) => !prev);
+  };
+
   const handleOrderSubmit = (e) => {
     e.preventDefault();
+
+    trackLead({
+      source: "produit fabrique",
+      value: product.price || 0,
+      city: clientCity,
+      productName: product.name,
+    });
+
+    trackWhatsAppClick({
+      source: "produit fabrique",
+      productName: product.name,
+    });
 
     const message = `
 Bonjour MARBRE DE CLASSE,
@@ -99,7 +144,7 @@ Merci de me contacter pour confirmer la commande.
           <button
             type="button"
             className="luxury-buy-btn"
-            onClick={() => setShowOrderForm((prev) => !prev)}
+            onClick={handleBuyClick}
           >
             Acheter
           </button>
