@@ -151,35 +151,31 @@ Merci de me contacter pour confirmer les détails.
   const handleWhatsAppQuoteClick = () => {
   console.log("DEVIS BUTTON CLICKED");
 
+  const realValue = Number(order?.totals?.finalTotal || 0);
+
+  console.log("REAL ORDER VALUE:", realValue);
+
   const pixelData = {
     content_name: order?.product?.name || "Demande de devis",
     content_category: "devis",
-    value: Number(order?.totals?.finalTotal || 0),
+    value: realValue,
     currency: "MAD",
     city: client.city || "",
   };
 
-  try {
-    trackLead({
-      source: "devis",
-      value: order?.totals?.finalTotal || 0,
-      city: client.city,
-      productName: order?.product?.name || "Demande de devis",
-    });
-  } catch (e) {
-    console.error("trackLead error", e);
-  }
+  trackLead({
+    source: "devis",
+    value: realValue,
+    city: client.city,
+    productName: order?.product?.name || "Demande de devis",
+  });
 
-  try {
-    trackWhatsAppClick({
-      source: "devis",
-      productName: order?.product?.name || "Demande de devis",
-      value: order?.totals?.finalTotal || 0,
-      city: client.city,
-    });
-  } catch (e) {
-    console.error("trackWhatsAppClick error", e);
-  }
+  trackWhatsAppClick({
+    source: "devis",
+    productName: order?.product?.name || "Demande de devis",
+    value: realValue,
+    city: client.city,
+  });
 
   if (window.fbq) {
     window.fbq("track", "Lead", pixelData);
