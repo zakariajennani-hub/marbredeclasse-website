@@ -49,9 +49,7 @@ ${index + 1}) ${order.product?.name || "-"} — ${line.finish || "-"} — ${
    Surface recommandée : ${Number(line.recommendedSurface || 0).toFixed(2)} m²
    Nombre de pièces : ${line.piecesNeeded || 0}
    Mètre linéaire : ${Number(line.rowLinearMeters || 0).toFixed(2)} ml
-   Marge de perte : ${
-     line.lossEnabled ? `${line.lossMargin}%` : "Non activée"
-   }
+   Marge de perte : ${line.lossEnabled ? `${line.lossMargin}%` : "Non activée"}
    Marge de sécurité : ${
      line.securityEnabled ? `${line.securityMargin}%` : "Non activée"
    }
@@ -125,22 +123,8 @@ TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
 `;
   }, [order, client]);
 
-  const message = `
-Bonjour MARBRE DE CLASSE,
-
-Je souhaite finaliser cette demande de devis :
-
-${orderText}
-
-Merci de me contacter pour confirmer les détails.
-`;
-
-  const whatsappLink = `https://wa.me/212604982455?text=${encodeURIComponent(
-    message
-  )}`;
-
   const handleWhatsAppQuoteClick = () => {
-    console.log("META PIXEL Lead + Contact + WhatsAppClick - Devis");
+    console.log("DEVIS BUTTON CLICKED");
 
     trackLead({
       source: "devis",
@@ -156,9 +140,7 @@ Merci de me contacter pour confirmer les détails.
       city: client.city,
     });
 
-    setTimeout(() => {
-      window.location.href = whatsappLink;
-    }, 1500);
+    alert("تم إرسال أحداث Pixel بنجاح. لم نفتح WhatsApp في هذا الاختبار.");
   };
 
   return (
@@ -176,7 +158,6 @@ Merci de me contacter pour confirmer les détails.
         {order ? (
           <div className="quote-order-summary">
             <span>RÉSUMÉ DU PROJET</span>
-
             <h3>{order.product?.name}</h3>
 
             <div className="quote-summary-grid">
@@ -190,10 +171,7 @@ Merci de me contacter pour confirmer les détails.
               <div>
                 <small>Surface recommandée</small>
                 <strong>
-                  {Number(order.totals?.totalRecommendedSurface || 0).toFixed(
-                    2
-                  )}{" "}
-                  m²
+                  {Number(order.totals?.totalRecommendedSurface || 0).toFixed(2)} m²
                 </strong>
               </div>
 
@@ -237,14 +215,12 @@ Merci de me contacter pour confirmer les détails.
 
                   <p>
                     Surface: {Number(line.clientSurface || 0).toFixed(2)} m² ·
-                    Perte:{" "}
-                    {line.lossEnabled ? `${line.lossMargin}%` : "Non"} ·
+                    Perte: {line.lossEnabled ? `${line.lossMargin}%` : "Non"} ·
                     Sécurité:{" "}
                     {line.securityEnabled ? `${line.securityMargin}%` : "Non"} ·
                     Pose: {line.linePoseEnabled ? "Oui" : "Non"} · Surface pose:{" "}
                     {Number(line.linePoseSurface || 0).toFixed(2)} m² ·
-                    Recommandée:{" "}
-                    {Number(line.recommendedSurface || 0).toFixed(2)} m² ·{" "}
+                    Recommandée: {Number(line.recommendedSurface || 0).toFixed(2)} m² ·{" "}
                     {line.piecesNeeded || 0} pièces ·{" "}
                     {Number(line.rowLinearMeters || 0).toFixed(2)} ml ·{" "}
                     {money(line.rowPrice)}
@@ -254,9 +230,7 @@ Merci de me contacter pour confirmer les détails.
             </div>
 
             <div className="quote-actions-top">
-              <Link to={`/products/${order.product?.id}`}>
-                Retour au produit
-              </Link>
+              <Link to={`/products/${order.product?.id}`}>Retour au produit</Link>
 
               <button type="button" onClick={clearOrder}>
                 Vider la demande
