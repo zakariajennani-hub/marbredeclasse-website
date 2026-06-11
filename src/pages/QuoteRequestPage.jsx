@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
+import {
+  trackLead,
+  trackContact,
+  trackWhatsAppClick,
+} from "../utils/metaPixel";
+
 import "./QuoteRequestPage.css";
 
 export default function QuoteRequestPage() {
@@ -136,6 +142,30 @@ Merci de me contacter pour confirmer les détails.
   const whatsappLink = `https://wa.me/212604982455?text=${encodeURIComponent(
     message
   )}`;
+
+  const handleWhatsAppQuoteClick = () => {
+    console.log("META PIXEL Lead + Contact + WhatsAppClick - Devis");
+
+    trackLead({
+      source: "devis",
+      value: order?.totals?.finalTotal || 0,
+      city: client.city,
+      productName: order?.product?.name || "Demande de devis",
+    });
+
+    trackContact({
+      method: "whatsapp",
+      source: "devis",
+      productName: order?.product?.name || "Demande de devis",
+    });
+
+    trackWhatsAppClick({
+      source: "devis",
+      productName: order?.product?.name || "Demande de devis",
+      value: order?.totals?.finalTotal || 0,
+      city: client.city,
+    });
+  };
 
   return (
     <main className="quote-request-page">
@@ -303,6 +333,7 @@ Merci de me contacter pour confirmer les détails.
           target="_blank"
           rel="noreferrer"
           className="quote-whatsapp-btn"
+          onClick={handleWhatsAppQuoteClick}
         >
           Envoyer via WhatsApp
         </a>
