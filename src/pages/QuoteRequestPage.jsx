@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import {
   trackLead,
-  trackContact,
   trackWhatsAppClick,
 } from "../utils/metaPixel";
 
@@ -146,16 +145,12 @@ Merci de me contacter pour confirmer les détails.
   const handleWhatsAppQuoteClick = () => {
     console.log("META PIXEL Lead + Contact + WhatsAppClick - Devis");
 
+    const whatsappWindow = window.open("", "_blank", "noreferrer");
+
     trackLead({
       source: "devis",
       value: order?.totals?.finalTotal || 0,
       city: client.city,
-      productName: order?.product?.name || "Demande de devis",
-    });
-
-    trackContact({
-      method: "whatsapp",
-      source: "devis",
       productName: order?.product?.name || "Demande de devis",
     });
 
@@ -165,6 +160,14 @@ Merci de me contacter pour confirmer les détails.
       value: order?.totals?.finalTotal || 0,
       city: client.city,
     });
+
+    setTimeout(() => {
+      if (whatsappWindow) {
+        whatsappWindow.location.href = whatsappLink;
+      } else {
+        window.open(whatsappLink, "_blank", "noreferrer");
+      }
+    }, 700);
   };
 
   return (
@@ -329,18 +332,12 @@ Merci de me contacter pour confirmer les détails.
         </div>
 
         <button
-  type="button"
-  className="quote-whatsapp-btn"
-  onClick={() => {
-    handleWhatsAppQuoteClick();
-
-    setTimeout(() => {
-      window.open(whatsappLink, "_blank", "noreferrer");
-    }, 500);
-  }}
->
-  Envoyer via WhatsApp
-</button>
+          type="button"
+          className="quote-whatsapp-btn"
+          onClick={handleWhatsAppQuoteClick}
+        >
+          Envoyer via WhatsApp
+        </button>
       </section>
     </main>
   );
