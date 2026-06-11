@@ -149,26 +149,53 @@ Merci de me contacter pour confirmer les détails.
   )}`;
 
   const handleWhatsAppQuoteClick = () => {
-    console.log("DEVIS BUTTON CLICKED");
+  console.log("DEVIS BUTTON CLICKED");
 
+  const pixelData = {
+    content_name: order?.product?.name || "Demande de devis",
+    content_category: "devis",
+    value: Number(order?.totals?.finalTotal || 0),
+    currency: "MAD",
+    city: client.city || "",
+  };
+
+  try {
     trackLead({
       source: "devis",
       value: order?.totals?.finalTotal || 0,
       city: client.city,
       productName: order?.product?.name || "Demande de devis",
     });
+  } catch (e) {
+    console.error("trackLead error", e);
+  }
 
+  try {
     trackWhatsAppClick({
       source: "devis",
       productName: order?.product?.name || "Demande de devis",
       value: order?.totals?.finalTotal || 0,
       city: client.city,
     });
+  } catch (e) {
+    console.error("trackWhatsAppClick error", e);
+  }
 
-    setTimeout(() => {
-      window.location.href = whatsappLink;
-    }, 1500);
-  };
+  if (window.fbq) {
+    window.fbq("track", "Lead", pixelData);
+
+    window.fbq("track", "Contact", {
+      ...pixelData,
+      contact_method: "whatsapp",
+    });
+
+    window.fbq("trackCustom", "WhatsAppClick", pixelData);
+  }
+
+  setTimeout(() => {
+    window.location.href = whatsappLink;
+  }, 1500);
+};
 
   return (
     <main className="quote-request-page">
