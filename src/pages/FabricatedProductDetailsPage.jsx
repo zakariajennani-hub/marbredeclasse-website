@@ -148,12 +148,15 @@ Merci de me contacter pour confirmer la commande.
           </div>
 
           <button
-            type="button"
-            className="luxury-buy-btn"
-            onClick={handleBuyClick}
-          >
-            Acheter
-          </button>
+  type="button"
+  className="luxury-buy-btn"
+  onClick={() => {
+    console.log("ACHETER BUTTON DIRECT CLICK");
+    handleBuyClick();
+  }}
+>
+  Acheter
+</button>
 
           {showOrderForm && (
             <form className="luxury-order-form" onSubmit={handleOrderSubmit}>
