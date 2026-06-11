@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   trackAddToCart,
   trackInitiateCheckout,
-} from "../utils/metaPixel";
+} from "../../utils/metaPixel";
 
 import deliveryZones from "../floor/deliveryZones";
 import floorServicesData from "../floor/floorServicesData";
