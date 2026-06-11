@@ -28,16 +28,18 @@ export default function FabricatedProductDetailsPage() {
   const [clientCity, setClientCity] = useState("");
 
   useEffect(() => {
-    if (product) {
-      setActiveImage(product.gallery?.[0] || product.image || "");
+    if (!product) return;
 
-      trackViewContent({
-        productName: product.name,
-        productId: product.id,
-        category: product.category || "Produit fabriqué",
-        value: product.price || 0,
-      });
-    }
+    setActiveImage(product.gallery?.[0] || product.image || "");
+
+    console.log("META PIXEL ViewContent", product.name);
+
+    trackViewContent({
+      productName: product.name,
+      productId: product.id,
+      category: product.category || "Produit fabriqué",
+      value: product.price || 0,
+    });
   }, [product]);
 
   if (!product) {
@@ -45,6 +47,8 @@ export default function FabricatedProductDetailsPage() {
   }
 
   const handleBuyClick = () => {
+    console.log("META PIXEL AddToCart + InitiateCheckout", product.name);
+
     trackAddToCart({
       value: product.price || 0,
       productName: product.name,
@@ -64,6 +68,8 @@ export default function FabricatedProductDetailsPage() {
 
   const handleOrderSubmit = (e) => {
     e.preventDefault();
+
+    console.log("META PIXEL Lead + WhatsAppClick", product.name);
 
     trackLead({
       source: "produit fabrique",
@@ -136,8 +142,8 @@ Merci de me contacter pour confirmer la commande.
 
           <div className="luxury-highlights">
             <span>✓ 160×90 cm</span>
-            <span>✓ Plateau travertin</span>
-            <span>✓ Chaises métal</span>
+            <span>✓ Plateau en travertin</span>
+            <span>✓ Chaises longues en métal</span>
             <span>✓ Tissu bouclé anti-tache</span>
           </div>
 
@@ -189,22 +195,27 @@ Merci de me contacter pour confirmer la commande.
             <span>Mesure</span>
             <strong>160×90 cm — fabrication sur mesure disponible</strong>
           </div>
+
           <div>
             <span>Plateau</span>
             <strong>Marbre Travertin</strong>
           </div>
+
           <div>
             <span>Chaises</span>
             <strong>Métal</strong>
           </div>
+
           <div>
             <span>Tissu</span>
             <strong>Bouclé anti-tache</strong>
           </div>
+
           <div>
             <span>Pieds</span>
             <strong>Marbre Travertin</strong>
           </div>
+
           <div>
             <span>Livraison</span>
             <strong>Tout le Maroc</strong>
@@ -220,10 +231,12 @@ Merci de me contacter pour confirmer la commande.
               Au quotidien, essuyez la table avec un chiffon microfibre humide
               avec quelques gouttes de savon.
             </p>
+
             <p>
               En cas de tache, appliquez une pâte de bicarbonate de soude avec
               un peu d’eau, puis essuyez délicatement.
             </p>
+
             <p className="luxury-warning">
               À bannir : vinaigre blanc, javel et éponges abrasives.
             </p>
@@ -231,18 +244,22 @@ Merci de me contacter pour confirmer la commande.
 
           <details>
             <summary>Nettoyage des chaises</summary>
+
             <p>
               Dépoussiérez une fois par mois avec l’embout brosse douce de
               l’aspirateur.
             </p>
+
             <p>
               En cas de tache liquide récente, absorbez immédiatement avec un
               chiffon blanc propre sans frotter.
             </p>
+
             <p>
               Pour une tache sèche, tamponnez avec une éponge humide et du savon
               de Marseille, puis séchez à distance.
             </p>
+
             <p className="luxury-warning">
               À bannir : brosses dures et frottements énergiques.
             </p>
