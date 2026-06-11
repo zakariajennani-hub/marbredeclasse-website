@@ -48,7 +48,7 @@ const univers = [
     title: "Autres produits",
     text: "Vasques, tables, fontaines et décorations en marbre et quartz.",
     image: produitsImg,
-    link: "/products?category=PRODUITS",
+    link: "/produits",
   },
 ];
 

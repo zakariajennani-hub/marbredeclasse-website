@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import products from "../data/productsData";
 import BackButton from "../modules/layout/BackButton";
@@ -25,6 +25,7 @@ function getMinPrice(product) {
 }
 
 export default function ProductsPage() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const categoryFromUrl = searchParams.get("category") || "TOUS";
@@ -46,6 +47,11 @@ export default function ProductsPage() {
   }, [selectedCategory, search]);
 
   const handleCategory = (category) => {
+    if (category === "PRODUITS") {
+      navigate("/produits");
+      return;
+    }
+
     setSelectedCategory(category);
 
     if (category === "TOUS") {

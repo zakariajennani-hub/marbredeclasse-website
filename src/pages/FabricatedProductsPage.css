@@ -1,0 +1,123 @@
+.fabricated-page {
+  min-height: 100vh;
+  padding: 170px 7vw 80px;
+  background: #f7f3ee;
+  color: #111;
+}
+
+.fabricated-hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.fabricated-hero span {
+  color: #b8923f;
+  font-weight: 900;
+  letter-spacing: 4px;
+}
+
+.fabricated-hero h1 {
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 1;
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.fabricated-hero p {
+  max-width: 760px;
+  margin: auto;
+  color: #666;
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+.categories-section,
+.products-section {
+  width: min(1180px, 100%);
+  margin: 0 auto 60px;
+}
+
+.categories-section h2,
+.products-section h2 {
+  font-size: 36px;
+  margin-bottom: 26px;
+}
+
+.categories-grid,
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.category-card,
+.product-card {
+  background: white;
+  border: 1px solid rgba(184, 146, 63, 0.18);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+}
+
+.category-card {
+  padding: 30px;
+}
+
+.category-card h3 {
+  margin: 0 0 12px;
+  font-size: 26px;
+}
+
+.category-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.category-card span {
+  color: #b8923f;
+  font-weight: 900;
+}
+
+.product-image-placeholder {
+  height: 220px;
+  background: linear-gradient(135deg, #eee4d5, #d8c7a9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-weight: 800;
+}
+
+.product-content {
+  padding: 25px;
+}
+
+.product-content h3 {
+  font-size: 25px;
+  margin: 0 0 12px;
+}
+
+.product-content p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.product-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  width: 100%;
+  min-height: 48px;
+  background: #c89c3d;
+  color: white;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+@media (max-width: 700px) {
+  .fabricated-page {
+    padding: 140px 22px 60px;
+  }
+}

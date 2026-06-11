@@ -21,7 +21,11 @@ export default function Navbar() {
         {menuOpen ? "✕" : "☰"}
       </button>
 
-      <Link to="/" className="navbar-logo-text" onClick={closeMenu}>
+      <Link
+        to="/"
+        className="navbar-logo-text"
+        onClick={closeMenu}
+      >
         MARBRE DE CLASSE
       </Link>
 
@@ -30,7 +34,7 @@ export default function Navbar() {
           Accueil
         </NavLink>
 
-        <NavLink to="/products" onClick={closeMenu}>
+        <NavLink to="/produits" onClick={closeMenu}>
           Produits
         </NavLink>
 
@@ -43,7 +47,11 @@ export default function Navbar() {
         </NavLink>
       </nav>
 
-      <Link to="/devis" className="navbar-quote-btn" onClick={closeMenu}>
+      <Link
+        to="/devis"
+        className="navbar-quote-btn"
+        onClick={closeMenu}
+      >
         Demander un devis
       </Link>
     </header>
