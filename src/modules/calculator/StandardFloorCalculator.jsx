@@ -1,6 +1,11 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  trackAddToCart,
+  trackInitiateCheckout,
+} from "../utils/metaPixel";
+
 import deliveryZones from "../floor/deliveryZones";
 import floorServicesData from "../floor/floorServicesData";
 
@@ -430,7 +435,23 @@ export default function StandardFloorCalculator({ product }) {
 
   const continueRequest = () => {
     const order = calculateAll();
+
+    trackAddToCart({
+      value: order.totals.finalTotal,
+      productName: product.name,
+      productId: product.id,
+      quantity: order.totals.totalPieces,
+      category: product.categoryLabel || product.category || "Sol",
+    });
+
+    trackInitiateCheckout({
+      value: order.totals.finalTotal,
+      itemsCount: order.totals.totalPieces,
+      source: "Sol / formats standards",
+    });
+
     localStorage.setItem("marbre_devis_order", JSON.stringify(order));
+
     navigate("/devis");
   };
 
