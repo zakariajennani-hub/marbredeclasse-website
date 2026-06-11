@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-import {
-  trackLead,
-  trackWhatsAppClick,
-} from "../utils/metaPixel";
+import { trackLead, trackWhatsAppClick } from "../utils/metaPixel";
 
 import "./QuoteRequestPage.css";
 
@@ -145,8 +142,6 @@ Merci de me contacter pour confirmer les détails.
   const handleWhatsAppQuoteClick = () => {
     console.log("META PIXEL Lead + Contact + WhatsAppClick - Devis");
 
-    const whatsappWindow = window.open("", "_blank", "noreferrer");
-
     trackLead({
       source: "devis",
       value: order?.totals?.finalTotal || 0,
@@ -162,12 +157,8 @@ Merci de me contacter pour confirmer les détails.
     });
 
     setTimeout(() => {
-      if (whatsappWindow) {
-        whatsappWindow.location.href = whatsappLink;
-      } else {
-        window.open(whatsappLink, "_blank", "noreferrer");
-      }
-    }, 700);
+      window.location.href = whatsappLink;
+    }, 1500);
   };
 
   return (
