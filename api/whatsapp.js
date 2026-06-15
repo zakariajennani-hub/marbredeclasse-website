@@ -134,10 +134,17 @@ async function getAiReply(userMessage) {
       return "مرحباً بك في Marbre de Classe. أرسل لنا نوع الرخام، القياسات، والمدينة لنساعدك في إعداد عرض السعر.";
     }
 
-    return (
-      data.output_text ||
-      "مرحباً بك في Marbre de Classe. أرسل لنا نوع الرخام، القياسات، والمدينة لنساعدك في إعداد عرض السعر."
-    );
+    const aiText =
+  data.output_text ||
+  data.output?.[0]?.content?.[0]?.text ||
+  data.output?.[0]?.content?.[0]?.text?.value ||
+  data.output?.[1]?.content?.[0]?.text ||
+  "";
+
+return (
+  aiText ||
+  "مرحباً بك في Marbre de Classe. أرسل لنا نوع الرخام، القياسات، والمدينة لنساعدك في إعداد عرض السعر."
+);
   } catch (error) {
     console.error("OPENAI ERROR:", error);
     return "مرحباً بك في Marbre de Classe. كيف يمكنني مساعدتك؟";
