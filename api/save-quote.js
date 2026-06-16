@@ -47,7 +47,7 @@ export default async function handler(req, res) {
           order_data,
           total_price,
 
-          status: "nouveau",
+          status: "new",
         },
       ])
       .select()
