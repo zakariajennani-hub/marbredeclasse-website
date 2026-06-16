@@ -144,7 +144,7 @@ ${orderText}
 Merci de me contacter pour confirmer les détails.
 `;
 
-  const whatsappLink = `https://wa.me/212604982455?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/212715703927?text=${encodeURIComponent(
     message
   )}`;
 
