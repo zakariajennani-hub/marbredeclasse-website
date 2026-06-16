@@ -13,6 +13,7 @@ import AboutPage from "./pages/AboutPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import FabricatedProductDetailsPage from "./pages/FabricatedProductDetailsPage";
+import DevisSuccessPage from "./pages/DevisSuccessPage";
 
 import { initPixel } from "./utils/metaPixel";
 
@@ -32,9 +33,14 @@ export default function App() {
         <Route path="/products/:id" element={<ProductDetailsPage />} />
 
         <Route path="/produits" element={<FabricatedProductDetailsPage />} />
-        <Route path="/produits/:id" element={<FabricatedProductDetailsPage />} />
+        <Route
+          path="/produits/:id"
+          element={<FabricatedProductDetailsPage />}
+        />
 
         <Route path="/devis" element={<QuoteRequestPage />} />
+        <Route path="/devis-success" element={<DevisSuccessPage />} />
+
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/services" element={<ServicesPage />} />
 
