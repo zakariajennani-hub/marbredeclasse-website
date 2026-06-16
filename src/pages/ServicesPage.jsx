@@ -143,7 +143,7 @@ export default function ServicesPage() {
         </div>
 
         <a
-          href="https://wa.me/212604982455?text=Bonjour%20MARBRE%20DE%20CLASSE%2C%20je%20souhaite%20demander%20un%20devis."
+          href="https://wa.me/212715703927?text=Bonjour%20MARBRE%20DE%20CLASSE%2C%20je%20souhaite%20demander%20un%20devis."
           target="_blank"
           rel="noreferrer"
         >
