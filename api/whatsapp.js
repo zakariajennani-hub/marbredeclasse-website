@@ -1,3 +1,6 @@
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const mode = req.query["hub.mode"];
@@ -16,11 +19,11 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       console.log("WEBHOOK RECEIVED");
-      console.log("FULL WEBHOOK:", JSON.stringify(req.body, null, 2));
 
       const value = req.body?.entry?.[0]?.changes?.[0]?.value;
       const message = value?.messages?.[0];
       const status = value?.statuses?.[0];
+      const contact = value?.contacts?.[0];
 
       if (status && !message) {
         console.log("STATUS UPDATE ONLY:", JSON.stringify(status, null, 2));
@@ -33,6 +36,8 @@ export default async function handler(req, res) {
       }
 
       const from = message.from;
+      const clientName = contact?.profile?.name || null;
+
       const text =
         message?.text?.body ||
         message?.button?.text ||
@@ -41,6 +46,7 @@ export default async function handler(req, res) {
         "";
 
       console.log("FROM:", from);
+      console.log("CLIENT NAME:", clientName);
       console.log("MESSAGE TYPE:", message.type);
       console.log("TEXT:", text);
 
@@ -49,18 +55,30 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, type: "no_sender" });
       }
 
-      if (!text) {
-        await sendWhatsAppMessage(
-          from,
-          "مرحباً بك في Marbre de Classe. من فضلك أرسل طلبك كتابة: نوع الرخام، القياسات، والمدينة."
-        );
+      await upsertConversation(from, clientName);
+      await saveMessage(from, "user", text || "[رسالة غير نصية]");
 
-        return res.status(200).json({ ok: true, type: "non_text" });
+      const history = await getConversationHistory(from, 20);
+      const conversation = await getConversation(from);
+
+      let reply;
+
+      if (!text) {
+        reply =
+          "مرحباً بك في Marbre de Classe. من فضلك أرسل طلبك كتابة: نوع الرخام، القياسات، والمدينة.";
+      } else {
+        reply = await getAiReply({
+          userMessage: text,
+          history,
+          conversation,
+          clientName,
+        });
       }
 
-      const reply = await getAiReply(text);
-
       console.log("AI REPLY:", reply);
+
+      await saveMessage(from, "assistant", reply);
+      await updateConversationFromText(from, text, reply);
 
       const sent = await sendWhatsAppMessage(from, reply);
 
@@ -80,12 +98,18 @@ export default async function handler(req, res) {
   return res.status(405).send("Method not allowed");
 }
 
-async function getAiReply(userMessage) {
+async function getAiReply({ userMessage, history, conversation, clientName }) {
   try {
     console.log("CALLING OPENAI");
 
+    const historyText = history
+      .map((m) => `${m.role === "user" ? "العميل" : "المساعد"}: ${m.message}`)
+      .join("\n");
+
     const systemPrompt = `
 أنت مساعد واتساب رسمي لشركة MARBRE DE CLASSE في المغرب.
+
+مهمتك أن تتصرف كمستشار مبيعات محترف للرخام، وليس مجرد بوت.
 
 الشركة تبيع وتفصل:
 - الرخام المغربي
@@ -100,14 +124,26 @@ async function getAiReply(userMessage) {
 - plans de cuisine
 - المنتجات حسب الطلب
 
-قواعد الرد:
+بيانات العميل الحالية:
+- الاسم: ${clientName || conversation?.client_name || "غير معروف"}
+- المدينة: ${conversation?.city || "غير معروفة"}
+- نوع الرخام: ${conversation?.marble_type || "غير محدد"}
+- القياسات: ${conversation?.dimensions || "غير محددة"}
+- التوصيل: ${conversation?.delivery ? "نعم" : "غير محدد"}
+- التركيب: ${conversation?.installation ? "نعم" : "غير محدد"}
+- المرحلة الحالية: ${conversation?.current_stage || "new"}
+
+قواعد مهمة:
+- تذكر سياق المحادثة السابق ولا تبدأ من الصفر.
+- لا تكرر سؤالاً أجاب عنه العميل سابقاً.
 - رد بالعربية أو الدارجة المغربية حسب أسلوب العميل.
-- كن مختصراً واحترافياً.
-- لا تعط سعراً نهائياً إلا إذا توفرت القياسات والنوع والمدينة.
-- اطلب من العميل: الاسم، المدينة، نوع الرخام، القياسات، الكمية، وهل يريد التوصيل أو التركيب.
-- إذا كان العميل يريد devis، اجمع المعلومات ثم قل له إن الفريق سيراجع الطلب ويتواصل معه.
-- إذا سأل عن القياس، اشرح أن الحساب غالباً بالمتر المربع: الطول × العرض.
-- إذا كان الطلب معقداً، قل له إن مستشاراً سيتواصل معه.
+- كن مختصراً، ودوداً، واحترافياً.
+- إذا أعطى العميل قياسات، احسب المساحة إن أمكن: الطول × العرض.
+- لا تعط سعراً نهائياً إلا إذا توفرت: نوع الرخام، القياسات، المدينة، وهل يريد التوصيل أو التركيب.
+- إذا كانت المعلومات ناقصة، اسأل فقط عن الناقص.
+- إذا اكتملت المعلومات، قل إنك تستطيع إعداد طلب devis مبدئي وأن الفريق سيراجعه.
+- لا تقل للعميل أنك ذكاء اصطناعي.
+- لا تذكر Supabase أو Vercel أو OpenAI.
 `;
 
     const response = await fetch("https://api.openai.com/v1/responses", {
@@ -120,7 +156,16 @@ async function getAiReply(userMessage) {
         model: "gpt-4.1-mini",
         input: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: userMessage },
+          {
+            role: "user",
+            content: `
+سجل المحادثة السابق:
+${historyText || "لا يوجد سجل سابق"}
+
+رسالة العميل الحالية:
+${userMessage}
+`,
+          },
         ],
       }),
     });
@@ -131,24 +176,25 @@ async function getAiReply(userMessage) {
 
     if (!response.ok) {
       console.error("OPENAI API ERROR:", JSON.stringify(data, null, 2));
-      return "مرحباً بك في Marbre de Classe. أرسل لنا نوع الرخام، القياسات، والمدينة لنساعدك في إعداد عرض السعر.";
+      return fallbackReply();
     }
 
     const aiText =
-  data.output_text ||
-  data.output?.[0]?.content?.[0]?.text ||
-  data.output?.[0]?.content?.[0]?.text?.value ||
-  data.output?.[1]?.content?.[0]?.text ||
-  "";
+      data.output_text ||
+      data.output?.[0]?.content?.[0]?.text ||
+      data.output?.[0]?.content?.[0]?.text?.value ||
+      data.output?.[1]?.content?.[0]?.text ||
+      "";
 
-return (
-  aiText ||
-  "مرحباً بك في Marbre de Classe. أرسل لنا نوع الرخام، القياسات، والمدينة لنساعدك في إعداد عرض السعر."
-);
+    return aiText || fallbackReply();
   } catch (error) {
     console.error("OPENAI ERROR:", error);
-    return "مرحباً بك في Marbre de Classe. كيف يمكنني مساعدتك؟";
+    return fallbackReply();
   }
+}
+
+function fallbackReply() {
+  return "مرحباً بك في Marbre de Classe. أرسل لنا نوع الرخام، القياسات، والمدينة لنساعدك في إعداد عرض السعر.";
 }
 
 async function sendWhatsAppMessage(to, message) {
@@ -186,4 +232,221 @@ async function sendWhatsAppMessage(to, message) {
     console.error("SEND WHATSAPP ERROR:", error);
     throw error;
   }
+}
+
+async function supabaseRequest(path, options = {}) {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error("Missing Supabase environment variables");
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...options,
+    headers: {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: options.prefer || "",
+      ...(options.headers || {}),
+    },
+  });
+
+  const text = await response.text();
+
+  if (!response.ok) {
+    console.error("SUPABASE ERROR:", response.status, text);
+    throw new Error(`Supabase error ${response.status}: ${text}`);
+  }
+
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+}
+
+async function upsertConversation(waId, clientName) {
+  console.log("UPSERT CONVERSATION");
+
+  const body = [
+    {
+      wa_id: waId,
+      client_name: clientName,
+      updated_at: new Date().toISOString(),
+    },
+  ];
+
+  return supabaseRequest("whatsapp_conversations?on_conflict=wa_id", {
+    method: "POST",
+    prefer: "resolution=merge-duplicates,return=representation",
+    body: JSON.stringify(body),
+  });
+}
+
+async function getConversation(waId) {
+  console.log("GET CONVERSATION");
+
+  const data = await supabaseRequest(
+    `whatsapp_conversations?wa_id=eq.${encodeURIComponent(
+      waId
+    )}&select=*`,
+    {
+      method: "GET",
+    }
+  );
+
+  return data?.[0] || null;
+}
+
+async function saveMessage(waId, role, message) {
+  console.log("SAVE MESSAGE:", role);
+
+  return supabaseRequest("whatsapp_messages", {
+    method: "POST",
+    prefer: "return=minimal",
+    body: JSON.stringify([
+      {
+        wa_id: waId,
+        role,
+        message,
+      },
+    ]),
+  });
+}
+
+async function getConversationHistory(waId, limit = 20) {
+  console.log("GET HISTORY");
+
+  const data = await supabaseRequest(
+    `whatsapp_messages?wa_id=eq.${encodeURIComponent(
+      waId
+    )}&select=role,message,created_at&order=created_at.desc&limit=${limit}`,
+    {
+      method: "GET",
+    }
+  );
+
+  return Array.isArray(data) ? data.reverse() : [];
+}
+
+async function updateConversationFromText(waId, userText, botReply) {
+  console.log("UPDATE CONVERSATION FIELDS");
+
+  const text = `${userText || ""} ${botReply || ""}`.toLowerCase();
+
+  const updates = {
+    updated_at: new Date().toISOString(),
+  };
+
+  const city = detectCity(text);
+  const marbleType = detectMarbleType(text);
+  const dimensions = detectDimensions(userText);
+
+  if (city) updates.city = city;
+  if (marbleType) updates.marble_type = marbleType;
+  if (dimensions) updates.dimensions = dimensions;
+
+  if (
+    text.includes("توصيل") ||
+    text.includes("livraison") ||
+    text.includes("delivery")
+  ) {
+    updates.delivery = true;
+  }
+
+  if (
+    text.includes("تركيب") ||
+    text.includes("pose") ||
+    text.includes("installation")
+  ) {
+    updates.installation = true;
+  }
+
+  updates.current_stage = detectStage(updates);
+
+  return supabaseRequest(
+    `whatsapp_conversations?wa_id=eq.${encodeURIComponent(waId)}`,
+    {
+      method: "PATCH",
+      prefer: "return=minimal",
+      body: JSON.stringify(updates),
+    }
+  );
+}
+
+function detectCity(text) {
+  const cities = [
+    "الرباط",
+    "rabat",
+    "سلا",
+    "salé",
+    "sale",
+    "تمارة",
+    "temara",
+    "الصخيرات",
+    "skhirat",
+    "بوزنيقة",
+    "bouznika",
+    "المحمدية",
+    "mohammedia",
+    "الدار البيضاء",
+    "casablanca",
+    "كازا",
+    "casa",
+    "القنيطرة",
+    "kenitra",
+    "طنجة",
+    "tanger",
+    "تطوان",
+    "tetouan",
+  ];
+
+  const found = cities.find((c) => text.includes(c.toLowerCase()));
+  return found || null;
+}
+
+function detectMarbleType(text) {
+  if (text.includes("ibiza") || text.includes("إيبزا")) return "Ibiza";
+  if (text.includes("calacatta") || text.includes("كالاكاتا"))
+    return "Calacatta";
+  if (text.includes("quartz") || text.includes("كوارتز")) return "Quartz";
+  if (text.includes("granite") || text.includes("غرانيت")) return "Granite";
+  if (text.includes("onyx") || text.includes("أونيكس")) return "Onyx";
+  if (text.includes("مغربي")) return "رخام مغربي";
+  if (text.includes("مستورد")) return "رخام مستورد";
+  if (text.includes("صناعي") || text.includes("artificiel"))
+    return "رخام صناعي";
+
+  return null;
+}
+
+function detectDimensions(text = "") {
+  const normalized = text
+    .replace(/,/g, ".")
+    .replace(/×/g, "x")
+    .replace(/\*/g, "x")
+    .replace(/على/g, "x")
+    .replace(/متر/g, "m")
+    .replace(/سم/g, "cm");
+
+  const match = normalized.match(
+    /(\d+(?:\.\d+)?)\s*(m|cm)?\s*x\s*(\d+(?:\.\d+)?)\s*(m|cm)?/i
+  );
+
+  if (!match) return null;
+
+  return match[0];
+}
+
+function detectStage(updates) {
+  if (updates.city && updates.marble_type && updates.dimensions) {
+    return "ready_for_devis";
+  }
+
+  if (updates.dimensions || updates.city || updates.marble_type) {
+    return "collecting_details";
+  }
+
+  return "new";
 }
