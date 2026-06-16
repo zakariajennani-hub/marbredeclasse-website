@@ -100,7 +100,7 @@ Merci de me contacter pour confirmer la commande.
 `;
 
     window.open(
-      `https://wa.me/212604982455?text=${encodeURIComponent(message)}`,
+      `https://wa.me/212715703927?text=${encodeURIComponent(message)}`,
       "_blank"
     );
   };

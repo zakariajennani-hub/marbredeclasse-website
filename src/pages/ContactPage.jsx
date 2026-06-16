@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "./ContactPage.css";
 
-const WHATSAPP_NUMBER = "212604982455";
+const WHATSAPP_NUMBER = "212715703927";
 
 export default function ContactPage() {
   const [form, setForm] = useState({
