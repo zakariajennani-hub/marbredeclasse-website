@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { trackLead, trackWhatsAppClick } from "../utils/metaPixel";
 
 import "./QuoteRequestPage.css";
 
 export default function QuoteRequestPage() {
+  const navigate = useNavigate();
+
   const [client, setClient] = useState({
     fullName: "",
     phone: "",
@@ -15,6 +17,8 @@ export default function QuoteRequestPage() {
   });
 
   const [order, setOrder] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
 
   useEffect(() => {
     const savedOrder = localStorage.getItem("marbre_devis_order");
@@ -134,64 +138,124 @@ TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
 `;
   }, [order, client]);
 
-  const message = `
+  const buildWhatsAppMessage = (quoteId) => {
+    return `
 Bonjour MARBRE DE CLASSE,
 
 Je souhaite finaliser cette demande de devis :
+
+Référence demande : #${quoteId || "-"}
 
 ${orderText}
 
 Merci de me contacter pour confirmer les détails.
 `;
-
-  const whatsappLink = `https://wa.me/212715703927?text=${encodeURIComponent(
-    message
-  )}`;
-
-  const handleWhatsAppQuoteClick = () => {
-  console.log("DEVIS BUTTON CLICKED");
-
-  const realValue = Number(order?.totals?.finalTotal || 0);
-
-  console.log("REAL ORDER VALUE:", realValue);
-
-  const pixelData = {
-    content_name: order?.product?.name || "Demande de devis",
-    content_category: "devis",
-    value: realValue,
-    currency: "MAD",
-    city: client.city || "",
   };
 
-  trackLead({
-    source: "devis",
-    value: realValue,
-    city: client.city,
-    productName: order?.product?.name || "Demande de devis",
-  });
+  const handleWhatsAppQuoteClick = async () => {
+    if (!order) {
+      setFormError("Aucune configuration trouvée.");
+      return;
+    }
 
-  trackWhatsAppClick({
-    source: "devis",
-    productName: order?.product?.name || "Demande de devis",
-    value: realValue,
-    city: client.city,
-  });
+    if (!client.fullName || !client.phone || !client.city) {
+      setFormError("Veuillez remplir au minimum le nom, le téléphone et la ville.");
+      return;
+    }
 
-  if (window.fbq) {
-    window.fbq("track", "Lead", pixelData);
+    setFormError("");
+    setIsSubmitting(true);
 
-    window.fbq("track", "Contact", {
-      ...pixelData,
-      contact_method: "whatsapp",
-    });
+    const realValue = Number(order?.totals?.finalTotal || 0);
 
-    window.fbq("trackCustom", "WhatsAppClick", pixelData);
-  }
+    try {
+      const response = await fetch("/api/save-quote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          client_name: client.fullName,
+          phone: client.phone,
+          city: client.city,
+          address: client.address,
+          note: client.note,
 
-  setTimeout(() => {
-    window.location.href = whatsappLink;
-  }, 1500);
-};
+          product_id: order.product?.id || "",
+          product_name: order.product?.name || "Demande de devis",
+          product_category:
+            order.product?.categoryLabel || order.product?.category || "",
+
+          order_data: order,
+          total_price: realValue,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Erreur lors de l'enregistrement.");
+      }
+
+      const quoteId = result.quote?.id;
+      const message = buildWhatsAppMessage(quoteId);
+      const whatsappLink = `https://wa.me/212715703927?text=${encodeURIComponent(
+        message
+      )}`;
+
+      const pixelData = {
+        content_name: order?.product?.name || "Demande de devis",
+        content_category: "devis",
+        value: realValue,
+        currency: "MAD",
+        city: client.city || "",
+      };
+
+      trackLead({
+        source: "devis",
+        value: realValue,
+        city: client.city,
+        productName: order?.product?.name || "Demande de devis",
+      });
+
+      trackWhatsAppClick({
+        source: "devis",
+        productName: order?.product?.name || "Demande de devis",
+        value: realValue,
+        city: client.city,
+      });
+
+      if (window.fbq) {
+        window.fbq("track", "Lead", pixelData);
+        window.fbq("track", "Contact", {
+          ...pixelData,
+          contact_method: "whatsapp",
+        });
+        window.fbq("trackCustom", "WhatsAppClick", pixelData);
+      }
+
+      localStorage.setItem(
+        "marbre_last_quote_request",
+        JSON.stringify({
+          quoteId,
+          client,
+          order,
+          totalPrice: realValue,
+        })
+      );
+
+      window.open(whatsappLink, "_blank", "noopener,noreferrer");
+
+      navigate("/devis-success");
+    } catch (error) {
+      console.error("QUOTE SUBMIT ERROR:", error);
+      setFormError(
+        "Une erreur est survenue. Veuillez réessayer ou nous contacter directement via WhatsApp."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <main className="quote-request-page">
@@ -221,10 +285,7 @@ Merci de me contacter pour confirmer les détails.
               <div>
                 <small>Surface recommandée</small>
                 <strong>
-                  {Number(order.totals?.totalRecommendedSurface || 0).toFixed(
-                    2
-                  )}{" "}
-                  m²
+                  {Number(order.totals?.totalRecommendedSurface || 0).toFixed(2)} m²
                 </strong>
               </div>
 
@@ -284,9 +345,7 @@ Merci de me contacter pour confirmer les détails.
             </div>
 
             <div className="quote-actions-top">
-              <Link to={`/products/${order.product?.id}`}>
-                Retour au produit
-              </Link>
+              <Link to={`/products/${order.product?.id}`}>Retour au produit</Link>
 
               <button type="button" onClick={clearOrder}>
                 Vider la demande
@@ -352,12 +411,15 @@ Merci de me contacter pour confirmer les détails.
           </label>
         </div>
 
+        {formError && <p className="quote-form-error">{formError}</p>}
+
         <button
           type="button"
           className="quote-whatsapp-btn"
           onClick={handleWhatsAppQuoteClick}
+          disabled={isSubmitting || !order}
         >
-          Envoyer via WhatsApp
+          {isSubmitting ? "Envoi en cours..." : "Envoyer via WhatsApp"}
         </button>
       </section>
     </main>
