@@ -34,8 +34,6 @@ export default function FabricatedProductDetailsPage() {
 
     setActiveImage(product.gallery?.[0] || product.image || "");
 
-    console.log("META PIXEL ViewContent", product.name);
-
     trackViewContent({
       productName: product.name,
       productId: product.id,
@@ -49,8 +47,6 @@ export default function FabricatedProductDetailsPage() {
   }
 
   const handleBuyClick = () => {
-    console.log("META PIXEL AddToCart + InitiateCheckout", product.name);
-
     trackAddToCart({
       value: product.price || 0,
       productName: product.name,
@@ -77,13 +73,11 @@ export default function FabricatedProductDetailsPage() {
     setFormError("");
 
     try {
-      console.log("META PIXEL Lead + WhatsAppClick", product.name);
-
       const totalPrice = product.price || 0;
 
       const orderData = {
         mode: "Projet sur mesure",
-        product_type: "Produit fabriqué",
+        product_type: "Table / produit fabriqué",
         product_id: product.id,
         product_name: product.name,
         product_category: product.category || "PRODUIT SUR MESURE",
@@ -98,7 +92,9 @@ export default function FabricatedProductDetailsPage() {
         source: "FabricatedProductDetailsPage",
       };
 
-      await fetch("/api/save-quote", {
+      console.log("SAVING FABRICATED PRODUCT ORDER:", orderData);
+
+      const saveResponse = await fetch("/api/save-quote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -108,7 +104,7 @@ export default function FabricatedProductDetailsPage() {
           phone: clientPhone,
           city: clientCity,
           address: "",
-          note: "Demande produit fabriqué / table",
+          note: "Demande table / produit fabriqué",
           product_id: product.id,
           product_name: product.name,
           product_category: product.category || "PRODUIT SUR MESURE",
@@ -116,6 +112,14 @@ export default function FabricatedProductDetailsPage() {
           total_price: totalPrice,
         }),
       });
+
+      const saveResult = await saveResponse.json().catch(() => null);
+
+      console.log("SAVE FABRICATED PRODUCT RESULT:", saveResult);
+
+      if (!saveResponse.ok || !saveResult?.success) {
+        throw new Error(saveResult?.error || "Erreur lors de l’enregistrement");
+      }
 
       trackLead({
         source: "produit fabrique",
@@ -136,7 +140,7 @@ Je souhaite acheter ce produit :
 
 Produit : ${product.name}
 Catégorie : ${product.category || "PRODUIT SUR MESURE"}
-Prix : ${product.price?.toLocaleString("fr-FR")} ${product.unit || "DH"}
+Prix : ${totalPrice.toLocaleString("fr-FR")} ${product.unit || "DH"}
 
 Informations client :
 Nom complet : ${clientName}
@@ -152,6 +156,7 @@ Merci de me contacter pour confirmer la commande.
       );
     } catch (error) {
       console.error("FABRICATED ORDER ERROR:", error);
+
       setFormError(
         "Une erreur est survenue. Veuillez réessayer ou nous contacter directement via WhatsApp."
       );
@@ -190,7 +195,8 @@ Merci de me contacter pour confirmer la commande.
           <h1>{product.name}</h1>
 
           <div className="luxury-price">
-            {product.price?.toLocaleString("fr-FR")} {product.unit || "DH"}
+            {(product.price || 0).toLocaleString("fr-FR")}{" "}
+            {product.unit || "DH"}
           </div>
 
           <p className="luxury-short-description">{product.description}</p>
@@ -205,10 +211,7 @@ Merci de me contacter pour confirmer la commande.
           <button
             type="button"
             className="luxury-buy-btn"
-            onClick={() => {
-              console.log("ACHETER BUTTON DIRECT CLICK");
-              handleBuyClick();
-            }}
+            onClick={handleBuyClick}
           >
             Acheter
           </button>
