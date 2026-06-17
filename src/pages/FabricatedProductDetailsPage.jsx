@@ -17,7 +17,6 @@ export default function FabricatedProductDetailsPage() {
   const { id } = useParams();
 
   const productId = id || "table-salle-a-manger-sur-mesure";
-
   const product = fabricatedProducts.find((item) => item.id === productId);
 
   const [activeImage, setActiveImage] = useState("");
@@ -26,6 +25,9 @@ export default function FabricatedProductDetailsPage() {
   const [clientName, setClientName] = useState("");
   const [clientPhone, setClientPhone] = useState("");
   const [clientCity, setClientCity] = useState("");
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
 
   useEffect(() => {
     if (!product) return;
@@ -66,29 +68,74 @@ export default function FabricatedProductDetailsPage() {
     setShowOrderForm((prev) => !prev);
   };
 
-  const handleOrderSubmit = (e) => {
+  const handleOrderSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("META PIXEL Lead + WhatsAppClick", product.name);
+    if (isSubmitting) return;
 
-    trackLead({
-      source: "produit fabrique",
-      value: product.price || 0,
-      city: clientCity,
-      productName: product.name,
-    });
+    setIsSubmitting(true);
+    setFormError("");
 
-    trackWhatsAppClick({
-      source: "produit fabrique",
-      productName: product.name,
-    });
+    try {
+      console.log("META PIXEL Lead + WhatsAppClick", product.name);
 
-    const message = `
+      const totalPrice = product.price || 0;
+
+      const orderData = {
+        mode: "Projet sur mesure",
+        product_type: "Produit fabriqué",
+        product_id: product.id,
+        product_name: product.name,
+        product_category: product.category || "PRODUIT SUR MESURE",
+        price: totalPrice,
+        unit: product.unit || "DH",
+        mesure: "160×90 cm — fabrication sur mesure disponible",
+        plateau: "Marbre Travertin",
+        chaises: "Métal",
+        tissu: "Bouclé anti-tache",
+        pieds: "Marbre Travertin",
+        livraison: "Tout le Maroc",
+        source: "FabricatedProductDetailsPage",
+      };
+
+      await fetch("/api/save-quote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          client_name: clientName,
+          phone: clientPhone,
+          city: clientCity,
+          address: "",
+          note: "Demande produit fabriqué / table",
+          product_id: product.id,
+          product_name: product.name,
+          product_category: product.category || "PRODUIT SUR MESURE",
+          order_data: orderData,
+          total_price: totalPrice,
+        }),
+      });
+
+      trackLead({
+        source: "produit fabrique",
+        value: totalPrice,
+        city: clientCity,
+        productName: product.name,
+      });
+
+      trackWhatsAppClick({
+        source: "produit fabrique",
+        productName: product.name,
+      });
+
+      const message = `
 Bonjour MARBRE DE CLASSE,
 
 Je souhaite acheter ce produit :
 
 Produit : ${product.name}
+Catégorie : ${product.category || "PRODUIT SUR MESURE"}
 Prix : ${product.price?.toLocaleString("fr-FR")} ${product.unit || "DH"}
 
 Informations client :
@@ -99,10 +146,18 @@ Ville : ${clientCity}
 Merci de me contacter pour confirmer la commande.
 `;
 
-    window.open(
-      `https://wa.me/212715703927?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
+      window.open(
+        `https://wa.me/212715703927?text=${encodeURIComponent(message)}`,
+        "_blank"
+      );
+    } catch (error) {
+      console.error("FABRICATED ORDER ERROR:", error);
+      setFormError(
+        "Une erreur est survenue. Veuillez réessayer ou nous contacter directement via WhatsApp."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -148,15 +203,15 @@ Merci de me contacter pour confirmer la commande.
           </div>
 
           <button
-  type="button"
-  className="luxury-buy-btn"
-  onClick={() => {
-    console.log("ACHETER BUTTON DIRECT CLICK");
-    handleBuyClick();
-  }}
->
-  Acheter
-</button>
+            type="button"
+            className="luxury-buy-btn"
+            onClick={() => {
+              console.log("ACHETER BUTTON DIRECT CLICK");
+              handleBuyClick();
+            }}
+          >
+            Acheter
+          </button>
 
           {showOrderForm && (
             <form className="luxury-order-form" onSubmit={handleOrderSubmit}>
@@ -184,7 +239,11 @@ Merci de me contacter pour confirmer la commande.
                 required
               />
 
-              <button type="submit">Envoyer la demande</button>
+              {formError && <p className="luxury-form-error">{formError}</p>}
+
+              <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Envoi en cours..." : "Envoyer la demande"}
+              </button>
             </form>
           )}
         </div>
