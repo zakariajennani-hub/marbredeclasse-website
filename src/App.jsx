@@ -16,10 +16,12 @@ import FabricatedProductDetailsPage from "./pages/FabricatedProductDetailsPage";
 import DevisSuccessPage from "./pages/DevisSuccessPage";
 
 import { initPixel } from "./utils/metaPixel";
+import { initClarity } from "./utils/clarity";
 
 export default function App() {
   useEffect(() => {
     initPixel();
+    initClarity();
   }, []);
 
   return (
