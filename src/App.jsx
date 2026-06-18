@@ -15,12 +15,12 @@ import TermsPage from "./pages/TermsPage";
 import FabricatedProductDetailsPage from "./pages/FabricatedProductDetailsPage";
 import DevisSuccessPage from "./pages/DevisSuccessPage";
 
-import { initPixel } from "./utils/metaPixel";
+import { initAnalytics } from "./utils/analytics";
 import { initClarity } from "./utils/clarity";
 
 export default function App() {
   useEffect(() => {
-    initPixel();
+    initAnalytics();
     initClarity();
   }, []);
 
