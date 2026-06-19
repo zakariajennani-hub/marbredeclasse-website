@@ -4,7 +4,6 @@ const DEFAULT_CURRENCY = "MAD";
 const isBrowser = () => typeof window !== "undefined";
 
 const hasFbq = () => isBrowser() && typeof window.fbq === "function";
-const hasGtag = () => isBrowser() && typeof window.gtag === "function";
 
 const cleanObject = (obj = {}) => {
   return Object.fromEntries(
@@ -30,39 +29,25 @@ const pushDataLayer = (eventName, data = {}) => {
   });
 };
 
-const trackGA4 = (eventName, data = {}) => {
-  if (!hasGtag()) return;
-
-  window.gtag("event", eventName, cleanObject(data));
-};
-
 const trackMeta = (eventName, data = {}) => {
   if (!hasFbq()) return;
-
   window.fbq("track", eventName, cleanObject(data));
 };
 
 const trackMetaCustom = (eventName, data = {}) => {
   if (!hasFbq()) return;
-
   window.fbq("trackCustom", eventName, cleanObject(data));
 };
 
 const trackAll = ({
   dataLayerEvent,
-  ga4Event,
   metaEvent,
   metaCustomEvent,
   dataLayerData = {},
-  ga4Data = {},
   metaData = {},
 }) => {
   if (dataLayerEvent) {
     pushDataLayer(dataLayerEvent, dataLayerData);
-  }
-
-  if (ga4Event) {
-    trackGA4(ga4Event, ga4Data);
   }
 
   if (metaEvent) {
@@ -126,10 +111,8 @@ export const trackPageView = () => {
 
   trackAll({
     dataLayerEvent: "virtual_page_view",
-    ga4Event: "page_view",
     metaEvent: "PageView",
     dataLayerData: pageData,
-    ga4Data: pageData,
     metaData: {},
   });
 };
@@ -144,12 +127,17 @@ export const trackViewContent = ({
     item_id: productId,
     item_name: productName,
     item_category: category,
+    price: value,
+    quantity: 1,
   });
 
-  const ga4Data = {
+  const dataLayerData = {
     currency: DEFAULT_CURRENCY,
     value,
     items: [item],
+    item_id: productId,
+    item_name: productName,
+    item_category: category,
   };
 
   const metaData = {
@@ -162,10 +150,8 @@ export const trackViewContent = ({
 
   trackAll({
     dataLayerEvent: "view_item",
-    ga4Event: "view_item",
     metaEvent: "ViewContent",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
@@ -181,13 +167,18 @@ export const trackAddToCart = ({
     item_id: productId,
     item_name: productName || "Produit ajouté au devis",
     item_category: category,
+    price: value,
     quantity,
   });
 
-  const ga4Data = {
+  const dataLayerData = {
     currency: DEFAULT_CURRENCY,
     value,
     items: [item],
+    item_id: productId,
+    item_name: productName || "Produit ajouté au devis",
+    item_category: category,
+    quantity,
   };
 
   const metaData = {
@@ -201,10 +192,8 @@ export const trackAddToCart = ({
 
   trackAll({
     dataLayerEvent: "add_to_cart",
-    ga4Event: "add_to_cart",
     metaEvent: "AddToCart",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
@@ -214,7 +203,7 @@ export const trackInitiateCheckout = ({
   itemsCount = 1,
   source = "devis",
 } = {}) => {
-  const ga4Data = {
+  const dataLayerData = {
     currency: DEFAULT_CURRENCY,
     value,
     items_count: itemsCount,
@@ -230,10 +219,8 @@ export const trackInitiateCheckout = ({
 
   trackAll({
     dataLayerEvent: "begin_checkout",
-    ga4Event: "begin_checkout",
     metaEvent: "InitiateCheckout",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
@@ -244,7 +231,7 @@ export const trackLead = ({
   city = "",
   productName = "",
 } = {}) => {
-  const ga4Data = {
+  const dataLayerData = {
     currency: DEFAULT_CURRENCY,
     value,
     source,
@@ -262,10 +249,8 @@ export const trackLead = ({
 
   trackAll({
     dataLayerEvent: "generate_lead",
-    ga4Event: "generate_lead",
     metaEvent: "Lead",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
@@ -277,7 +262,7 @@ export const trackContact = ({
   value = 0,
   city = "",
 } = {}) => {
-  const ga4Data = {
+  const dataLayerData = {
     method,
     source,
     product_name: productName,
@@ -297,10 +282,8 @@ export const trackContact = ({
 
   trackAll({
     dataLayerEvent: "contact",
-    ga4Event: "contact",
     metaEvent: "Contact",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
@@ -315,10 +298,8 @@ export const trackWhatsAppClick = (data = {}) => {
 
   trackAll({
     dataLayerEvent: "whatsapp_click",
-    ga4Event: "whatsapp_click",
     metaCustomEvent: "WhatsAppClick",
     dataLayerData: payload,
-    ga4Data: payload,
     metaData: payload,
   });
 };
@@ -333,10 +314,8 @@ export const trackPhoneClick = (data = {}) => {
 
   trackAll({
     dataLayerEvent: "phone_click",
-    ga4Event: "phone_click",
     metaCustomEvent: "PhoneClick",
     dataLayerData: payload,
-    ga4Data: payload,
     metaData: payload,
   });
 };
@@ -346,7 +325,7 @@ export const trackPurchase = ({
   orderId = "",
   itemsCount = 1,
 } = {}) => {
-  const ga4Data = {
+  const dataLayerData = {
     transaction_id: orderId,
     currency: DEFAULT_CURRENCY,
     value,
@@ -362,16 +341,14 @@ export const trackPurchase = ({
 
   trackAll({
     dataLayerEvent: "purchase",
-    ga4Event: "purchase",
     metaEvent: "Purchase",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
 
 export const trackSearch = ({ searchTerm = "" } = {}) => {
-  const ga4Data = {
+  const dataLayerData = {
     search_term: searchTerm,
   };
 
@@ -381,16 +358,14 @@ export const trackSearch = ({ searchTerm = "" } = {}) => {
 
   trackAll({
     dataLayerEvent: "search",
-    ga4Event: "search",
     metaEvent: "Search",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
 
 export const trackCompleteRegistration = ({ method = "website" } = {}) => {
-  const ga4Data = {
+  const dataLayerData = {
     method,
   };
 
@@ -400,10 +375,8 @@ export const trackCompleteRegistration = ({ method = "website" } = {}) => {
 
   trackAll({
     dataLayerEvent: "sign_up",
-    ga4Event: "sign_up",
     metaEvent: "CompleteRegistration",
-    dataLayerData: ga4Data,
-    ga4Data,
+    dataLayerData,
     metaData,
   });
 };
@@ -411,10 +384,8 @@ export const trackCompleteRegistration = ({ method = "website" } = {}) => {
 export const trackCustomEvent = (eventName, data = {}) => {
   trackAll({
     dataLayerEvent: eventName,
-    ga4Event: eventName,
     metaCustomEvent: eventName,
     dataLayerData: data,
-    ga4Data: data,
     metaData: data,
   });
 };
