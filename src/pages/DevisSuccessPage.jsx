@@ -1,6 +1,33 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import { trackLead } from "../utils/metaPixel";
+
 export default function DevisSuccessPage() {
+  useEffect(() => {
+    const alreadyTracked = sessionStorage.getItem(
+      "marbre_devis_success_tracked"
+    );
+
+    if (alreadyTracked) return;
+
+    const savedOrder = JSON.parse(
+      localStorage.getItem("marbre_devis_order") || "{}"
+    );
+
+    trackLead({
+      source: "devis_success",
+      value: savedOrder?.totalPrice || savedOrder?.total_price || 0,
+      city: savedOrder?.clientCity || savedOrder?.city || "",
+      productName:
+        savedOrder?.productName ||
+        savedOrder?.product_name ||
+        "Demande de devis",
+    });
+
+    sessionStorage.setItem("marbre_devis_success_tracked", "true");
+  }, []);
+
   return (
     <div
       style={{
@@ -24,12 +51,7 @@ export default function DevisSuccessPage() {
       >
         <h1>✅ Demande envoyée avec succès</h1>
 
-        <p
-          style={{
-            marginTop: "20px",
-            lineHeight: "1.8",
-          }}
-        >
+        <p style={{ marginTop: "20px", lineHeight: "1.8" }}>
           Merci pour votre demande.
           <br />
           Notre équipe MARBRE DE CLASSE va analyser votre projet et vous
