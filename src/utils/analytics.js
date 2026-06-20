@@ -1,4 +1,5 @@
 const PIXEL_ID = "864493949510284";
+const GA4_ID = "G-J31ZKFQCJ3";
 const DEFAULT_CURRENCY = "MAD";
 
 const isBrowser = () => typeof window !== "undefined";
@@ -18,15 +19,44 @@ const ensureDataLayer = () => {
   window.dataLayer = window.dataLayer || [];
 };
 
+const initGA4Direct = () => {
+  if (!isBrowser()) return;
+
+  ensureDataLayer();
+
+  if (!window.gtag) {
+    const gaScript = document.createElement("script");
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+    document.head.appendChild(gaScript);
+
+    window.gtag = function () {
+      window.dataLayer.push(arguments);
+    };
+
+    window.gtag("js", new Date());
+
+    window.gtag("config", GA4_ID, {
+      send_page_view: false,
+    });
+  }
+};
+
 const pushDataLayer = (eventName, data = {}) => {
   if (!isBrowser()) return;
 
   ensureDataLayer();
 
+  const cleanedData = cleanObject(data);
+
   window.dataLayer.push({
     event: eventName,
-    ...cleanObject(data),
+    ...cleanedData,
   });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, cleanedData);
+  }
 };
 
 const trackMeta = (eventName, data = {}) => {
@@ -63,6 +93,7 @@ export const initAnalytics = () => {
   if (!isBrowser()) return;
 
   ensureDataLayer();
+  initGA4Direct();
 
   if (!window.fbq) {
     !(function (f, b, e, v, n, t, s) {
@@ -110,7 +141,7 @@ export const trackPageView = () => {
   };
 
   trackAll({
-    dataLayerEvent: "virtual_page_view",
+    dataLayerEvent: "page_view",
     metaEvent: "PageView",
     dataLayerData: pageData,
     metaData: {},
@@ -237,6 +268,7 @@ export const trackLead = ({
     source,
     city,
     product_name: productName,
+    item_name: productName || "Demande de devis",
   };
 
   const metaData = {
@@ -266,6 +298,7 @@ export const trackContact = ({
     method,
     source,
     product_name: productName,
+    item_name: productName || "Contact Marbre De Classe",
     value,
     currency: DEFAULT_CURRENCY,
     city,
@@ -291,6 +324,7 @@ export const trackContact = ({
 export const trackWhatsAppClick = (data = {}) => {
   const payload = {
     method: "whatsapp",
+    currency: DEFAULT_CURRENCY,
     ...data,
   };
 
@@ -307,6 +341,7 @@ export const trackWhatsAppClick = (data = {}) => {
 export const trackPhoneClick = (data = {}) => {
   const payload = {
     method: "phone",
+    currency: DEFAULT_CURRENCY,
     ...data,
   };
 
