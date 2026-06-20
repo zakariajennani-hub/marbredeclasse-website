@@ -244,6 +244,9 @@ Merci de me contacter pour confirmer les détails.
         })
       );
 
+      
+      
+      await new Promise((resolve) => setTimeout(resolve, 800));
       window.open(whatsappLink, "_blank", "noopener,noreferrer");
 
       navigate("/devis-success");
