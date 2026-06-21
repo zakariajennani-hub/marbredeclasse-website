@@ -151,7 +151,69 @@ ${orderText}
 Merci de me contacter pour confirmer les détails.
 `;
   };
+const getTrackingData = () => {
+  const params = new URLSearchParams(window.location.search);
 
+  return {
+    gclid:
+      params.get("gclid") ||
+      localStorage.getItem("gclid") ||
+      "",
+
+    gbraid:
+      params.get("gbraid") ||
+      localStorage.getItem("gbraid") ||
+      "",
+
+    wbraid:
+      params.get("wbraid") ||
+      localStorage.getItem("wbraid") ||
+      "",
+
+    fbclid:
+      params.get("fbclid") ||
+      localStorage.getItem("fbclid") ||
+      "",
+
+    utm_source:
+      params.get("utm_source") ||
+      localStorage.getItem("utm_source") ||
+      "",
+
+    utm_medium:
+      params.get("utm_medium") ||
+      localStorage.getItem("utm_medium") ||
+      "",
+
+    utm_campaign:
+      params.get("utm_campaign") ||
+      localStorage.getItem("utm_campaign") ||
+      "",
+
+    utm_term:
+      params.get("utm_term") ||
+      localStorage.getItem("utm_term") ||
+      "",
+
+    utm_content:
+      params.get("utm_content") ||
+      localStorage.getItem("utm_content") ||
+      "",
+
+    landing_page: window.location.href,
+
+    referrer: document.referrer,
+
+    device_type:
+      window.innerWidth < 768
+        ? "mobile"
+        : window.innerWidth < 1024
+        ? "tablet"
+        : "desktop",
+
+    browser: navigator.userAgent,
+  };
+};
   const handleWhatsAppQuoteClick = async () => {
     if (!order) {
       setFormError("Aucune configuration trouvée.");
@@ -167,7 +229,7 @@ Merci de me contacter pour confirmer les détails.
     setIsSubmitting(true);
 
     const realValue = Number(order?.totals?.finalTotal || 0);
-
+    const tracking = getTrackingData();
     try {
       const response = await fetch("/api/save-quote", {
         method: "POST",
@@ -188,6 +250,22 @@ Merci de me contacter pour confirmer les détails.
 
           order_data: order,
           total_price: realValue,
+                    gclid: tracking.gclid,
+          gbraid: tracking.gbraid,
+          wbraid: tracking.wbraid,
+          fbclid: tracking.fbclid,
+
+          utm_source: tracking.utm_source,
+          utm_medium: tracking.utm_medium,
+          utm_campaign: tracking.utm_campaign,
+          utm_term: tracking.utm_term,
+          utm_content: tracking.utm_content,
+
+          landing_page: tracking.landing_page,
+          referrer: tracking.referrer,
+
+          device_type: tracking.device_type,
+          browser: tracking.browser,
         }),
       });
 

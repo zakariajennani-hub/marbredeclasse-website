@@ -20,12 +20,31 @@ export default async function handler(req, res) {
       city,
       address,
       note,
+
       product_id,
       product_name,
       product_category,
+
       order_data,
       total_price,
-    } = req.body;
+
+      gclid,
+      gbraid,
+      wbraid,
+      fbclid,
+
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_term,
+      utm_content,
+
+      landing_page,
+      referrer,
+
+      device_type,
+      browser,
+    } = req.body || {};
 
     const { data, error } = await supabase
       .from("quote_requests")
@@ -46,6 +65,23 @@ export default async function handler(req, res) {
 
           order_data,
           total_price,
+
+          gclid,
+          gbraid,
+          wbraid,
+          fbclid,
+
+          utm_source,
+          utm_medium,
+          utm_campaign,
+          utm_term,
+          utm_content,
+
+          landing_page,
+          referrer,
+
+          device_type,
+          browser,
 
           status: "new",
         },
