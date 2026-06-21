@@ -19,6 +19,26 @@ const ensureDataLayer = () => {
   window.dataLayer = window.dataLayer || [];
 };
 
+const normalizePhoneForGoogleAds = (phone = "") => {
+  const cleaned = String(phone).replace(/[^\d+]/g, "");
+
+  if (!cleaned) return "";
+  if (cleaned.startsWith("+")) return cleaned;
+  if (cleaned.startsWith("212")) return `+${cleaned}`;
+  if (cleaned.startsWith("0")) return `+212${cleaned.slice(1)}`;
+
+  return cleaned;
+};
+
+const splitFullName = (fullName = "") => {
+  const parts = String(fullName).trim().split(/\s+/).filter(Boolean);
+
+  return {
+    firstName: parts[0] || "",
+    lastName: parts.slice(1).join(" ") || "",
+  };
+};
+
 const initGA4Direct = () => {
   if (!isBrowser()) return;
 
@@ -86,6 +106,47 @@ const trackAll = ({
 
   if (metaCustomEvent) {
     trackMetaCustom(metaCustomEvent, metaData);
+  }
+};
+
+export const setGoogleEnhancedUserData = ({
+  email = "",
+  phone = "",
+  fullName = "",
+  firstName = "",
+  lastName = "",
+  city = "",
+  country = "MA",
+} = {}) => {
+  if (!isBrowser()) return;
+
+  ensureDataLayer();
+
+  const nameParts = splitFullName(fullName);
+  const finalFirstName = firstName || nameParts.firstName;
+  const finalLastName = lastName || nameParts.lastName;
+  const phoneNumber = normalizePhoneForGoogleAds(phone);
+
+  const userData = cleanObject({
+    email: email || undefined,
+    phone_number: phoneNumber || undefined,
+    address: cleanObject({
+      first_name: finalFirstName || undefined,
+      last_name: finalLastName || undefined,
+      city: city || undefined,
+      country,
+    }),
+  });
+
+  if (!userData.email && !userData.phone_number && !userData.address) return;
+
+  window.dataLayer.push({
+    event: "enhanced_conversion_data",
+    user_data: userData,
+  });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("set", "user_data", userData);
   }
 };
 
@@ -261,7 +322,22 @@ export const trackLead = ({
   value = 0,
   city = "",
   productName = "",
+  email = "",
+  phone = "",
+  fullName = "",
+  firstName = "",
+  lastName = "",
 } = {}) => {
+  setGoogleEnhancedUserData({
+    email,
+    phone,
+    fullName,
+    firstName,
+    lastName,
+    city,
+    country: "MA",
+  });
+
   const dataLayerData = {
     currency: DEFAULT_CURRENCY,
     value,

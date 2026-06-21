@@ -1,64 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { trackLead, trackWhatsAppClick } from "../utils/metaPixel";
+import { trackLead, trackWhatsAppClick } from "../utils/analytics";
 
 import "./QuoteRequestPage.css";
-
-const normalizePhoneForGoogleAds = (phone = "") => {
-  const cleaned = String(phone).replace(/[^\d+]/g, "");
-
-  if (!cleaned) return "";
-
-  if (cleaned.startsWith("+")) return cleaned;
-
-  if (cleaned.startsWith("212")) {
-    return `+${cleaned}`;
-  }
-
-  if (cleaned.startsWith("0")) {
-    return `+212${cleaned.slice(1)}`;
-  }
-
-  return cleaned;
-};
-
-const splitFullName = (fullName = "") => {
-  const parts = String(fullName).trim().split(/\s+/).filter(Boolean);
-
-  return {
-    firstName: parts[0] || "",
-    lastName: parts.slice(1).join(" ") || "",
-  };
-};
-
-const sendEnhancedConversionData = ({ fullName, phone, city }) => {
-  if (typeof window === "undefined") return;
-
-  const { firstName, lastName } = splitFullName(fullName);
-  const phoneNumber = normalizePhoneForGoogleAds(phone);
-
-  const userData = {
-    phone_number: phoneNumber,
-    address: {
-      first_name: firstName,
-      last_name: lastName,
-      city: city || "",
-      country: "MA",
-    },
-  };
-
-  window.dataLayer = window.dataLayer || [];
-
-  window.dataLayer.push({
-    event: "enhanced_conversion_data",
-    user_data: userData,
-  });
-
-  if (typeof window.gtag === "function") {
-    window.gtag("set", "user_data", userData);
-  }
-};
 
 export default function QuoteRequestPage() {
   const navigate = useNavigate();
@@ -258,25 +203,13 @@ Merci de me contacter pour confirmer les détails.
         message
       )}`;
 
-      const pixelData = {
-        content_name: order?.product?.name || "Demande de devis",
-        content_category: "devis",
-        value: realValue,
-        currency: "MAD",
-        city: client.city || "",
-      };
-
-      sendEnhancedConversionData({
-        fullName: client.fullName,
-        phone: client.phone,
-        city: client.city,
-      });
-
       trackLead({
-        source: "devis",
+        source: "quote-success",
         value: realValue,
         city: client.city,
         productName: order?.product?.name || "Demande de devis",
+        fullName: client.fullName,
+        phone: client.phone,
       });
 
       trackWhatsAppClick({
@@ -285,15 +218,6 @@ Merci de me contacter pour confirmer les détails.
         value: realValue,
         city: client.city,
       });
-
-      if (window.fbq) {
-        window.fbq("track", "Lead", pixelData);
-        window.fbq("track", "Contact", {
-          ...pixelData,
-          contact_method: "whatsapp",
-        });
-        window.fbq("trackCustom", "WhatsAppClick", pixelData);
-      }
 
       localStorage.setItem(
         "marbre_last_quote_request",
@@ -468,7 +392,7 @@ Merci de me contacter pour confirmer les détails.
             Note
             <textarea
               value={client.note}
-              onChange={(e) => updateClient("note")}
+              onChange={(e) => updateClient("note", e.target.value)}
               placeholder="Ajoutez une remarque sur votre projet..."
             />
           </label>
