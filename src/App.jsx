@@ -18,6 +18,8 @@ import DevisSuccessPage from "./pages/DevisSuccessPage";
 import { initAnalytics } from "./utils/analytics";
 import { initClarity } from "./utils/clarity";
 
+import AdminQuotesPage from "./pages/AdminQuotesPage";
+
 export default function App() {
   useEffect(() => {
     initAnalytics();
@@ -47,7 +49,7 @@ export default function App() {
         <Route path="/services" element={<ServicesPage />} />
 
         <Route path="/qui-sommes-nous" element={<AboutPage />} />
-
+        <Route path="/admin/quotes" element={<AdminQuotesPage />} />
         <Route
           path="/politique-confidentialite"
           element={<PrivacyPolicyPage />}
