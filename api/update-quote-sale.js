@@ -225,7 +225,6 @@ const uploadMetaPurchase = async ({ quote, saleAmount, req }) => {
   );
 
   const data = await response.json();
-  console.log("META RESPONSE:", JSON.stringify(data, null, 2));
   if (!response.ok) {
     throw new Error(JSON.stringify(data));
   }
