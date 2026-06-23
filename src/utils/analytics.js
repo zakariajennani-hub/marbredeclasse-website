@@ -19,6 +19,35 @@ const ensureDataLayer = () => {
   window.dataLayer = window.dataLayer || [];
 };
 
+export const captureAdClickIds = () => {
+  if (!isBrowser()) return;
+
+  const params = new URLSearchParams(window.location.search);
+
+  [
+    "gclid",
+    "gbraid",
+    "wbraid",
+    "fbclid",
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content",
+  ].forEach((key) => {
+    const value = params.get(key);
+    if (value) localStorage.setItem(key, value);
+  });
+
+  if (!localStorage.getItem("landing_page")) {
+    localStorage.setItem("landing_page", window.location.href);
+  }
+
+  if (document.referrer && !localStorage.getItem("referrer")) {
+    localStorage.setItem("referrer", document.referrer);
+  }
+};
+
 const normalizePhoneForGoogleAds = (phone = "") => {
   const cleaned = String(phone).replace(/[^\d+]/g, "");
 
@@ -154,6 +183,7 @@ export const initAnalytics = () => {
   if (!isBrowser()) return;
 
   ensureDataLayer();
+  captureAdClickIds();
   initGA4Direct();
 
   if (!window.fbq) {

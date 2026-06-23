@@ -123,6 +123,10 @@ export default function AdminQuotesPage() {
         quote.product_name,
         quote.product_category,
         quote.id,
+        quote.gclid,
+        quote.gbraid,
+        quote.wbraid,
+        quote.utm_campaign,
       ]
         .filter(Boolean)
         .join(" ")
@@ -268,7 +272,7 @@ export default function AdminQuotesPage() {
       <section className="admin-filters">
         <input
           type="search"
-          placeholder="Rechercher nom, téléphone, ville, produit..."
+          placeholder="Rechercher nom, téléphone, ville, produit, gclid..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -343,6 +347,41 @@ export default function AdminQuotesPage() {
                 <div className="admin-note-box">
                   {quote.address && <p>Adresse: {quote.address}</p>}
                   {quote.note && <p>Note client: {quote.note}</p>}
+                </div>
+              )}
+
+              {(quote.gclid ||
+                quote.gbraid ||
+                quote.wbraid ||
+                quote.fbclid ||
+                quote.utm_source ||
+                quote.utm_campaign ||
+                quote.landing_page ||
+                quote.referrer) && (
+                <div className="admin-note-box">
+                  <p>
+                    <strong>Google Ads / Tracking</strong>
+                  </p>
+
+                  {quote.gclid && <p>GCLID: {quote.gclid}</p>}
+                  {quote.gbraid && <p>GBRAID: {quote.gbraid}</p>}
+                  {quote.wbraid && <p>WBRAID: {quote.wbraid}</p>}
+                  {quote.fbclid && <p>FBCLID: {quote.fbclid}</p>}
+
+                  {quote.utm_source && <p>UTM Source: {quote.utm_source}</p>}
+                  {quote.utm_medium && <p>UTM Medium: {quote.utm_medium}</p>}
+                  {quote.utm_campaign && (
+                    <p>UTM Campaign: {quote.utm_campaign}</p>
+                  )}
+                  {quote.utm_term && <p>UTM Term: {quote.utm_term}</p>}
+                  {quote.utm_content && <p>UTM Content: {quote.utm_content}</p>}
+
+                  {quote.landing_page && (
+                    <p>Landing page: {quote.landing_page}</p>
+                  )}
+                  {quote.referrer && <p>Referrer: {quote.referrer}</p>}
+
+                  {quote.device_type && <p>Device: {quote.device_type}</p>}
                 </div>
               )}
 
