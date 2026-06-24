@@ -16,6 +16,7 @@ export default function StandardFloorCalculator({ product }) {
 
   const LOSS_MARGIN = 8;
   const SECURITY_MARGIN = 4;
+  const HANDLING_FIXED_PRICE = 200;
 
   const finishes = product.finishes || [];
   const rowsRef = useRef(null);
@@ -193,9 +194,7 @@ export default function StandardFloorCalculator({ product }) {
     const deliveryPrice = deliveryEnabled ? Number(selectedCity.price || 0) : 0;
 
     const handlingEnabled = !!handlingRef.current?.checked;
-    const handlingPrice = handlingEnabled
-      ? totalRecommendedSurface * floorServicesData.handling.pricePerM2
-      : 0;
+    const handlingPrice = handlingEnabled ? HANDLING_FIXED_PRICE : 0;
 
     const poseEnabled = !!poseRef.current?.checked;
     const poseType = poseTypeRef.current?.value || "pose_marbre";
@@ -228,8 +227,8 @@ export default function StandardFloorCalculator({ product }) {
         deliveryPrice,
 
         handling: handlingEnabled,
-        handlingUnit: floorServicesData.handling.unit,
-        handlingPricePerM2: floorServicesData.handling.pricePerM2,
+        handlingUnit: "forfait",
+        handlingFixedPrice: HANDLING_FIXED_PRICE,
         handlingPrice,
 
         pose: poseEnabled,
@@ -661,7 +660,7 @@ export default function StandardFloorCalculator({ product }) {
           </label>
 
           <p className="installation-note">
-            Calcul actuel : {floorServicesData.handling.pricePerM2} MAD / m².
+            Prix fixe : {HANDLING_FIXED_PRICE} MAD.
           </p>
 
           <div className="service-price-box">
