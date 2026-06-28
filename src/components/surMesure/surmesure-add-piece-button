@@ -1,0 +1,14 @@
+.surmesure-add-piece-button{
+    width:100%;
+    height:58px;
+    margin-top:22px;
+    margin-bottom:26px;
+    border:none;
+    border-radius:18px;
+    background:#c8a24f;
+    color:#fff;
+    font-size:17px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.25s;
+}

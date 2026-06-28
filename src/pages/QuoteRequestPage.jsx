@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { trackLead, trackWhatsAppClick } from "../utils/analytics";
+import buildWhatsAppMessage from "../utils/buildWhatsAppMessage";
 
 import "./QuoteRequestPage.css";
 
@@ -36,184 +37,84 @@ export default function QuoteRequestPage() {
     setClient((prev) => ({ ...prev, [field]: value }));
   };
 
-  const clearOrder = () => {
-    localStorage.removeItem("marbre_devis_order");
-    setOrder(null);
-  };
+  const isSurMesureOrder = order?.mode === "sur_mesure";
 
-  const money = (value) => {
-    return Math.round(Number(value || 0)).toLocaleString("fr-FR") + " MAD";
-  };
+  const getOrderValue = () => {
+    if (!order) return 0;
 
-  const orderText = useMemo(() => {
-    if (!order) return "Aucune configuration enregistrée.";
-
-    const linesText =
-      order.lines
-        ?.map((line, index) => {
-          return `
-${index + 1}) ${order.product?.name || "-"} — ${line.finish || "-"} — ${
-            line.format || "-"
-          }
-Surface à couvrir : ${Number(line.clientSurface || 0).toFixed(2)} m²
-Surface recommandée : ${Number(line.recommendedSurface || 0).toFixed(2)} m²
-Nombre de pièces : ${line.piecesNeeded || 0}
-Mètre linéaire : ${Number(line.rowLinearMeters || 0).toFixed(2)} ml
-Marge de perte : ${
-            line.lossEnabled ? `${line.lossMargin}%` : "Non activée"
-          }
-Marge de sécurité : ${
-            line.securityEnabled ? `${line.securityMargin}%` : "Non activée"
-          }
-Pose sur cette ligne : ${line.linePoseEnabled ? "Oui" : "Non"}
-Surface pose ligne : ${Number(line.linePoseSurface || 0).toFixed(2)} m²
-Prix / m² : ${line.pricePerM2 || 0} MAD
-Total ligne : ${money(line.rowPrice)}
-`;
-        })
-        .join("\n") || "-";
-
-    return `
-DEMANDE DE DEVIS - MARBRE DE CLASSE
-
-CLIENT
-Nom : ${client.fullName || "-"}
-Téléphone : ${client.phone || "-"}
-Ville : ${client.city || "-"}
-Adresse : ${client.address || "-"}
-Note : ${client.note || "-"}
-
-PRODUIT
-Nom : ${order.product?.name || "-"}
-Catégorie : ${order.product?.categoryLabel || order.product?.category || "-"}
-Origine : ${order.product?.origin || "-"}
-Mode : ${order.mode || "-"}
-
-MESURES
-${linesText}
-
-SERVICES
-Livraison : ${order.services?.delivery ? "Oui" : "Non"}
-Ville livraison : ${order.services?.city || "-"}
-Prix livraison : ${money(order.services?.deliveryPrice)}
-
-Main-d’œuvre descente : ${order.services?.handling ? "Oui" : "Non"}
-Prix main-d’œuvre : ${money(order.services?.handlingPrice)}
-
-Pose globale : ${order.services?.pose ? "Oui" : "Non"}
-Type de pose : ${
-      order.services?.pose
-        ? order.services.poseType === "pose_complete"
-          ? "Pose complète"
-          : "Pose marbre"
-        : "-"
+    if (isSurMesureOrder) {
+      return Number(order.totalPrice || 0);
     }
 
-Surface totale de pose : ${
-      order.services?.pose
-        ? Number(order.services.poseSurface || 0).toFixed(2) + " m²"
-        : "-"
+    return Number(order.totals?.finalTotal || 0);
+  };
+
+  const getProductName = () => {
+    if (!order) return "Demande de devis";
+
+    if (isSurMesureOrder) {
+      return order.productName || "Marbre sur mesure";
     }
 
-Prix pose / m² : ${
-      order.services?.pose ? `${order.services.posePricePerM2} MAD` : "-"
+    return order.product?.name || "Demande de devis";
+  };
+
+  const getProductId = () => {
+    if (!order) return "";
+
+    if (isSurMesureOrder) {
+      return order.productId || "";
     }
 
-Prix pose : ${money(order.services?.posePrice)}
-
-TOTAL
-Surface client totale : ${Number(
-      order.totals?.totalClientSurface || 0
-    ).toFixed(2)} m²
-Surface recommandée totale : ${Number(
-      order.totals?.totalRecommendedSurface || 0
-    ).toFixed(2)} m²
-Nombre total de pièces : ${order.totals?.totalPieces || 0}
-Mètre linéaire total : ${Number(
-      order.totals?.totalLinearMeters || 0
-    ).toFixed(2)} ml
-Prix total matériaux : ${money(order.totals?.materialTotal)}
-Total services : ${money(order.totals?.servicesTotal)}
-TOTAL ESTIMÉ : ${money(order.totals?.finalTotal)}
-`;
-  }, [order, client]);
-
-  const buildWhatsAppMessage = (quoteId) => {
-    return `
-Bonjour MARBRE DE CLASSE,
-
-Je souhaite finaliser cette demande de devis :
-
-Référence demande : #${quoteId || "-"}
-
-${orderText}
-
-Merci de me contacter pour confirmer les détails.
-`;
+    return order.product?.id || "";
   };
-const getTrackingData = () => {
-  const params = new URLSearchParams(window.location.search);
 
-  return {
-    gclid:
-      params.get("gclid") ||
-      localStorage.getItem("gclid") ||
-      "",
+  const getProductCategory = () => {
+    if (!order) return "";
 
-    gbraid:
-      params.get("gbraid") ||
-      localStorage.getItem("gbraid") ||
-      "",
+    if (isSurMesureOrder) {
+      return order.category || "";
+    }
 
-    wbraid:
-      params.get("wbraid") ||
-      localStorage.getItem("wbraid") ||
-      "",
-
-    fbclid:
-      params.get("fbclid") ||
-      localStorage.getItem("fbclid") ||
-      "",
-
-    utm_source:
-      params.get("utm_source") ||
-      localStorage.getItem("utm_source") ||
-      "",
-
-    utm_medium:
-      params.get("utm_medium") ||
-      localStorage.getItem("utm_medium") ||
-      "",
-
-    utm_campaign:
-      params.get("utm_campaign") ||
-      localStorage.getItem("utm_campaign") ||
-      "",
-
-    utm_term:
-      params.get("utm_term") ||
-      localStorage.getItem("utm_term") ||
-      "",
-
-    utm_content:
-      params.get("utm_content") ||
-      localStorage.getItem("utm_content") ||
-      "",
-
-    landing_page: window.location.href,
-
-    referrer: document.referrer,
-
-    device_type:
-      window.innerWidth < 768
-        ? "mobile"
-        : window.innerWidth < 1024
-        ? "tablet"
-        : "desktop",
-
-    browser: navigator.userAgent,
+    return order.product?.categoryLabel || order.product?.category || "";
   };
-};
+
+  const getTrackingData = () => {
+    const params = new URLSearchParams(window.location.search);
+
+    return {
+      gclid: params.get("gclid") || localStorage.getItem("gclid") || "",
+      gbraid: params.get("gbraid") || localStorage.getItem("gbraid") || "",
+      wbraid: params.get("wbraid") || localStorage.getItem("wbraid") || "",
+      fbclid: params.get("fbclid") || localStorage.getItem("fbclid") || "",
+
+      utm_source:
+        params.get("utm_source") || localStorage.getItem("utm_source") || "",
+      utm_medium:
+        params.get("utm_medium") || localStorage.getItem("utm_medium") || "",
+      utm_campaign:
+        params.get("utm_campaign") ||
+        localStorage.getItem("utm_campaign") ||
+        "",
+      utm_term:
+        params.get("utm_term") || localStorage.getItem("utm_term") || "",
+      utm_content:
+        params.get("utm_content") || localStorage.getItem("utm_content") || "",
+
+      landing_page: window.location.href,
+      referrer: document.referrer,
+
+      device_type:
+        window.innerWidth < 768
+          ? "mobile"
+          : window.innerWidth < 1024
+          ? "tablet"
+          : "desktop",
+
+      browser: navigator.userAgent,
+    };
+  };
+
   const handleWhatsAppQuoteClick = async () => {
     if (!order) {
       setFormError("Aucune configuration trouvée.");
@@ -221,15 +122,18 @@ const getTrackingData = () => {
     }
 
     if (!client.fullName || !client.phone || !client.city) {
-      setFormError("Veuillez remplir au minimum le nom, le téléphone et la ville.");
+      setFormError(
+        "Veuillez remplir au minimum le nom, le téléphone et la ville."
+      );
       return;
     }
 
     setFormError("");
     setIsSubmitting(true);
 
-    const realValue = Number(order?.totals?.finalTotal || 0);
+    const realValue = getOrderValue();
     const tracking = getTrackingData();
+
     try {
       const response = await fetch("/api/save-quote", {
         method: "POST",
@@ -243,14 +147,14 @@ const getTrackingData = () => {
           address: client.address,
           note: client.note,
 
-          product_id: order.product?.id || "",
-          product_name: order.product?.name || "Demande de devis",
-          product_category:
-            order.product?.categoryLabel || order.product?.category || "",
+          product_id: getProductId(),
+          product_name: getProductName(),
+          product_category: getProductCategory(),
 
           order_data: order,
           total_price: realValue,
-                    gclid: tracking.gclid,
+
+          gclid: tracking.gclid,
           gbraid: tracking.gbraid,
           wbraid: tracking.wbraid,
           fbclid: tracking.fbclid,
@@ -276,7 +180,13 @@ const getTrackingData = () => {
       }
 
       const quoteId = result.quote?.id;
-      const message = buildWhatsAppMessage(quoteId);
+
+      const message = buildWhatsAppMessage({
+        order,
+        client,
+        quoteId,
+      });
+
       const whatsappLink = `https://wa.me/212715703927?text=${encodeURIComponent(
         message
       )}`;
@@ -285,14 +195,14 @@ const getTrackingData = () => {
         source: "quote-success",
         value: realValue,
         city: client.city,
-        productName: order?.product?.name || "Demande de devis",
+        productName: getProductName(),
         fullName: client.fullName,
         phone: client.phone,
       });
 
       trackWhatsAppClick({
         source: "devis",
-        productName: order?.product?.name || "Demande de devis",
+        productName: getProductName(),
         value: realValue,
         city: client.city,
       });
@@ -314,9 +224,24 @@ const getTrackingData = () => {
       navigate("/devis-success");
     } catch (error) {
       console.error("QUOTE SUBMIT ERROR:", error);
+
+      const fallbackMessage = buildWhatsAppMessage({
+        order,
+        client,
+        quoteId: "LOCAL",
+      });
+
+      const whatsappLink = `https://wa.me/212715703927?text=${encodeURIComponent(
+        fallbackMessage
+      )}`;
+
+      window.open(whatsappLink, "_blank", "noopener,noreferrer");
+
       setFormError(
-        "Une erreur est survenue. Veuillez réessayer ou nous contacter directement via WhatsApp."
+        "La demande n’a pas été enregistrée automatiquement, mais WhatsApp a été ouvert avec les détails."
       );
+
+      navigate("/devis-success");
     } finally {
       setIsSubmitting(false);
     }
@@ -329,95 +254,12 @@ const getTrackingData = () => {
           <span>DEMANDE DE DEVIS</span>
           <h1>Finaliser votre demande</h1>
           <p>
-            Vérifiez votre configuration, ajoutez vos informations, puis envoyez
-            la demande directement via WhatsApp.
+            Ajoutez vos informations, puis envoyez la demande directement via
+            WhatsApp.
           </p>
         </div>
 
-        {order ? (
-          <div className="quote-order-summary">
-            <span>RÉSUMÉ DU PROJET</span>
-            <h3>{order.product?.name}</h3>
-
-            <div className="quote-summary-grid">
-              <div>
-                <small>Surface client</small>
-                <strong>
-                  {Number(order.totals?.totalClientSurface || 0).toFixed(2)} m²
-                </strong>
-              </div>
-
-              <div>
-                <small>Surface recommandée</small>
-                <strong>
-                  {Number(order.totals?.totalRecommendedSurface || 0).toFixed(2)} m²
-                </strong>
-              </div>
-
-              <div>
-                <small>Nombre de pièces</small>
-                <strong>{order.totals?.totalPieces || 0}</strong>
-              </div>
-
-              <div>
-                <small>Mètre linéaire</small>
-                <strong>
-                  {Number(order.totals?.totalLinearMeters || 0).toFixed(2)} ml
-                </strong>
-              </div>
-
-              <div>
-                <small>Surface pose</small>
-                <strong>
-                  {Number(order.services?.poseSurface || 0).toFixed(2)} m²
-                </strong>
-              </div>
-
-              <div>
-                <small>Services</small>
-                <strong>{money(order.totals?.servicesTotal)}</strong>
-              </div>
-
-              <div className="quote-summary-total">
-                <small>Total estimé</small>
-                <strong>{money(order.totals?.finalTotal)}</strong>
-              </div>
-            </div>
-
-            <div className="quote-lines">
-              {order.lines?.map((line, index) => (
-                <div className="quote-line" key={index}>
-                  <strong>
-                    Ligne {index + 1} — {line.finish || "-"} —{" "}
-                    {line.format || "-"}
-                  </strong>
-
-                  <p>
-                    Surface: {Number(line.clientSurface || 0).toFixed(2)} m² ·
-                    Perte: {line.lossEnabled ? `${line.lossMargin}%` : "Non"} ·
-                    Sécurité:{" "}
-                    {line.securityEnabled ? `${line.securityMargin}%` : "Non"} ·
-                    Pose: {line.linePoseEnabled ? "Oui" : "Non"} · Surface pose:{" "}
-                    {Number(line.linePoseSurface || 0).toFixed(2)} m² ·
-                    Recommandée:{" "}
-                    {Number(line.recommendedSurface || 0).toFixed(2)} m² ·{" "}
-                    {line.piecesNeeded || 0} pièces ·{" "}
-                    {Number(line.rowLinearMeters || 0).toFixed(2)} ml ·{" "}
-                    {money(line.rowPrice)}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="quote-actions-top">
-              <Link to={`/products/${order.product?.id}`}>Retour au produit</Link>
-
-              <button type="button" onClick={clearOrder}>
-                Vider la demande
-              </button>
-            </div>
-          </div>
-        ) : (
+        {!order && (
           <div className="quote-empty">
             <h3>Aucune configuration trouvée</h3>
             <p>Retournez vers un produit pour préparer une demande de devis.</p>

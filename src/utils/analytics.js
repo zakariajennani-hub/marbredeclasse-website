@@ -521,6 +521,64 @@ export const trackCompleteRegistration = ({ method = "website" } = {}) => {
     metaData,
   });
 };
+export const trackMarbleView = ({
+  marbleName = "",
+  marbleCategory = "",
+  value = 0,
+} = {}) => {
+  trackAll({
+    dataLayerEvent: "view_marble",
+    metaEvent: "ViewContent",
+    dataLayerData: {
+      marble_name: marbleName,
+      marble_category: marbleCategory,
+      value,
+      currency: DEFAULT_CURRENCY,
+    },
+    metaData: {
+      content_name: marbleName,
+      content_category: marbleCategory,
+      value,
+      currency: DEFAULT_CURRENCY,
+    },
+  });
+};
+export const trackMarbleApplicationClick = ({
+  marbleName = "",
+  application = "",
+} = {}) => {
+  trackAll({
+    dataLayerEvent: "view_application",
+    metaCustomEvent: "ViewApplication",
+    dataLayerData: {
+      marble_name: marbleName,
+      application,
+    },
+    metaData: {
+      marble_name: marbleName,
+      application,
+    },
+  });
+};
+export const trackBeginSurMesureQuote = ({
+  marbleName = "",
+  value = 0,
+} = {}) => {
+  trackAll({
+    dataLayerEvent: "begin_sur_mesure_quote",
+    metaEvent: "InitiateCheckout",
+    dataLayerData: {
+      marble_name: marbleName,
+      value,
+      currency: DEFAULT_CURRENCY,
+    },
+    metaData: {
+      content_name: marbleName,
+      value,
+      currency: DEFAULT_CURRENCY,
+    },
+  });
+};
 
 export const trackCustomEvent = (eventName, data = {}) => {
   trackAll({
