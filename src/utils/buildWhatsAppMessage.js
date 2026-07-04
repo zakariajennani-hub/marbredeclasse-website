@@ -25,6 +25,46 @@ ${client.note || "-"}
 `;
 };
 
+const buildChairMessage = ({ order, client, quoteId }) => {
+  return `
+🟨 DEMANDE DE DEVIS
+MARBRE DE CLASSE
+
+Référence demande : #${quoteId || "-"}
+
+${line}
+
+🪑 Produit :
+${order.productName || "Chaise"}
+
+Catégorie :
+${order.category || "Chaise"}
+
+Couleur :
+${order.color || "-"}
+
+Quantité :
+${order.quantity || 1}
+
+Prix unitaire :
+${money(order.unitPrice)}
+
+Total :
+${money(order.total)}
+
+Page :
+${order.sourcePage || "-"}
+
+${line}
+
+${buildClientSection(client)}
+
+${line}
+
+Merci de me contacter pour confirmer les détails.
+`;
+};
+
 const buildSurMesureMessage = ({ order, client, quoteId }) => {
   const piecesText =
     order.pieces
@@ -103,10 +143,18 @@ Produit :
 ${order?.product?.name || order?.productName || "Demande de devis"}
 
 Catégorie :
-${order?.product?.categoryLabel || order?.product?.category || order?.category || "-"}
+${
+  order?.product?.categoryLabel ||
+  order?.product?.category ||
+  order?.category ||
+  "-"
+}
 
 Mode :
-${order?.mode || "-"}
+${order?.mode || order?.orderType || "-"}
+
+Total :
+${money(order?.totals?.finalTotal || order?.total || 0)}
 
 ${line}
 
@@ -119,6 +167,10 @@ Merci de me contacter pour confirmer les détails.
 };
 
 export default function buildWhatsAppMessage({ order, client, quoteId }) {
+  if (order?.orderType === "chair") {
+    return buildChairMessage({ order, client, quoteId });
+  }
+
   if (order?.mode === "sur_mesure") {
     return buildSurMesureMessage({ order, client, quoteId });
   }

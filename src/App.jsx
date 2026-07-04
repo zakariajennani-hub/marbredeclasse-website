@@ -21,6 +21,8 @@ import AdminQuotesPage from "./pages/AdminQuotesPage";
 import { initAnalytics, trackPageView } from "./utils/analytics";
 import { initClarity } from "./utils/clarity";
 
+import ChairsPage from "./pages/ChairsPage";
+
 function RouteChangeTracker() {
   const location = useLocation();
 
@@ -67,6 +69,9 @@ export default function App() {
         />
 
         <Route path="/conditions-utilisation" element={<TermsPage />} />
+        <Route path="/chaises" element={<ChairsPage />} />
+        <Route path="/chaises" element={<ChairsPage />} />
+<Route path="/chaises/:chairId" element={<ChairsPage />} />
       </Routes>
     </BrowserRouter>
   );

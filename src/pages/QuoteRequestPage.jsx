@@ -38,9 +38,14 @@ export default function QuoteRequestPage() {
   };
 
   const isSurMesureOrder = order?.mode === "sur_mesure";
+  const isChairOrder = order?.orderType === "chair";
 
   const getOrderValue = () => {
     if (!order) return 0;
+
+    if (isChairOrder) {
+      return Number(order.total || 0);
+    }
 
     if (isSurMesureOrder) {
       return Number(order.totalPrice || 0);
@@ -52,6 +57,10 @@ export default function QuoteRequestPage() {
   const getProductName = () => {
     if (!order) return "Demande de devis";
 
+    if (isChairOrder) {
+      return order.productName || "Chaise";
+    }
+
     if (isSurMesureOrder) {
       return order.productName || "Marbre sur mesure";
     }
@@ -61,6 +70,10 @@ export default function QuoteRequestPage() {
 
   const getProductId = () => {
     if (!order) return "";
+
+    if (isChairOrder) {
+      return order.productId || "";
+    }
 
     if (isSurMesureOrder) {
       return order.productId || "";
@@ -72,11 +85,27 @@ export default function QuoteRequestPage() {
   const getProductCategory = () => {
     if (!order) return "";
 
+    if (isChairOrder) {
+      return order.category || "Chaise";
+    }
+
     if (isSurMesureOrder) {
       return order.category || "";
     }
 
     return order.product?.categoryLabel || order.product?.category || "";
+  };
+
+  const getLeadSource = () => {
+    if (isChairOrder) return "chair";
+    if (isSurMesureOrder) return "sur_mesure";
+    return "quote-success";
+  };
+
+  const getWhatsAppSource = () => {
+    if (isChairOrder) return "chair";
+    if (isSurMesureOrder) return "sur_mesure";
+    return "devis";
   };
 
   const getTrackingData = () => {
@@ -192,19 +221,23 @@ export default function QuoteRequestPage() {
       )}`;
 
       trackLead({
-        source: "quote-success",
+        source: getLeadSource(),
         value: realValue,
         city: client.city,
         productName: getProductName(),
         fullName: client.fullName,
         phone: client.phone,
+        category: getProductCategory(),
+        productId: getProductId(),
       });
 
       trackWhatsAppClick({
-        source: "devis",
+        source: getWhatsAppSource(),
         productName: getProductName(),
         value: realValue,
         city: client.city,
+        category: getProductCategory(),
+        productId: getProductId(),
       });
 
       localStorage.setItem(

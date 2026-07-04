@@ -1,0 +1,432 @@
+/* src/pages/ChairsPage.css */
+
+.chairs-page {
+  background: #f6f1e8;
+  color: #111;
+  min-height: 100vh;
+  padding-bottom: 70px;
+  overflow-x: hidden;
+}
+
+.breadcrumb {
+  max-width: 1400px;
+  margin: 115px auto 10px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #8b8174;
+  font-weight: 800;
+}
+
+.breadcrumb span {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.breadcrumb span:hover {
+  color: #c8a24a;
+}
+
+.breadcrumb .separator {
+  cursor: default;
+  color: #c8a24a;
+  font-size: 18px;
+}
+
+.breadcrumb strong {
+  color: #111;
+  font-weight: 1000;
+}
+
+.chairs-hero {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 7% 28px;
+}
+
+.chairs-hero h1 {
+  font-size: clamp(38px, 4.5vw, 64px);
+  margin: 0 0 12px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.chairs-hero p {
+  font-size: 20px;
+  color: #6d6458;
+  max-width: 760px;
+  font-weight: 800;
+}
+
+.chairs-config {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 7% 30px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(380px, 0.9fr);
+  gap: 34px;
+}
+
+.chair-preview,
+.chair-panel {
+  min-width: 0;
+}
+
+.chair-stage {
+  position: relative;
+  background: radial-gradient(circle at center, #fff 0%, #f8f2e9 72%);
+  border-radius: 38px;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.chair-stage img {
+  display: block;
+  width: auto;
+  max-width: 82%;
+  height: auto;
+  max-height: 86%;
+  object-fit: contain;
+  margin: auto;
+}
+
+.fabric-badge {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  background: #c8a24a;
+  color: #111;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 1000;
+  z-index: 2;
+}
+
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.gallery-dots button {
+  width: 9px;
+  height: 9px;
+  border: none;
+  border-radius: 999px;
+  background: #d8d0c2;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.gallery-dots button.active {
+  width: 28px;
+  background: #111;
+}
+
+.image-selector-block {
+  margin-top: 24px;
+  max-width: 100%;
+}
+
+.image-selector-block h3 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 14px;
+}
+
+.color-image-grid {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 6px 4px 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.color-image-grid::-webkit-scrollbar {
+  height: 7px;
+}
+
+.color-image-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+}
+
+.color-image-grid::-webkit-scrollbar-thumb {
+  background: #c8a24a;
+  border-radius: 999px;
+}
+
+.color-image-card {
+  border: 2px solid transparent;
+  background: #fff;
+  border-radius: 22px;
+  padding: 8px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+  transition: 0.2s ease;
+  min-width: 118px;
+  flex: 0 0 118px;
+  scroll-snap-align: start;
+}
+
+.color-image-card.active {
+  border-color: #c8a24a;
+  box-shadow: 0 14px 34px rgba(200, 162, 74, 0.26);
+}
+
+.color-image-card img {
+  width: 100%;
+  height: 105px;
+  object-fit: contain;
+  background: #f8f2e9;
+  border-radius: 16px;
+}
+
+.color-image-card span {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+  margin-top: 6px;
+}
+
+.chair-panel {
+  background: #fff;
+  border-radius: 38px;
+  padding: 38px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+.quantity-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f6f1e8;
+  border-radius: 26px;
+  padding: 18px 20px;
+  font-weight: 1000;
+}
+
+.quantity-box div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.quantity-box button {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.total-card {
+  margin-top: 18px;
+  background: #111;
+  color: #fff;
+  border-radius: 28px;
+  padding: 24px;
+}
+
+.total-card p {
+  color: #d8d0c2;
+  margin: 0 0 10px;
+  font-weight: 800;
+}
+
+.total-card h3 {
+  font-size: 32px;
+  margin: 0;
+}
+
+.main-cta {
+  width: 100%;
+  margin-top: 18px;
+  border: none;
+  background: #c8a24a;
+  color: #111;
+  padding: 20px;
+  border-radius: 999px;
+  font-size: 18px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.chair-description {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #6d6458;
+  margin: 26px 0 0;
+  font-weight: 800;
+}
+
+.similar-models,
+.reviews-section,
+.chairs-faq {
+  max-width: 1400px;
+  margin: 55px auto 0;
+  padding: 0 7%;
+}
+
+.similar-models h2,
+.reviews-section h2,
+.chairs-faq h2 {
+  font-size: 36px;
+  margin-bottom: 22px;
+}
+
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.models-grid button {
+  text-align: left;
+  border: none;
+  background: #fff;
+  border-radius: 30px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.06);
+}
+
+.models-grid img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  background: #f8f2e9;
+}
+
+.models-grid strong,
+.models-grid span {
+  display: block;
+  padding: 0 22px;
+}
+
+.models-grid strong {
+  font-size: 20px;
+  margin-top: 18px;
+}
+
+.models-grid span {
+  color: #c8a24a;
+  font-weight: 1000;
+  margin: 8px 0 22px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.06);
+}
+
+.stars {
+  color: #c8a24a;
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+.review-card p {
+  color: #6d6458;
+  font-weight: 800;
+  line-height: 1.7;
+}
+
+.chairs-kicker,
+.available,
+.price,
+.single-option,
+.color-row,
+.option-block,
+.fabric-swatches,
+.info-grid,
+.chair-title,
+.chair-thumbs {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .models-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 950px) {
+  .breadcrumb {
+    margin: 105px auto 10px;
+    padding: 0 6%;
+    flex-wrap: wrap;
+  }
+
+  .chairs-hero {
+    padding: 22px 6% 25px;
+  }
+
+  .chairs-hero h1 {
+    font-size: 42px;
+  }
+
+  .chairs-config {
+    grid-template-columns: 1fr;
+    padding: 18px 6% 30px;
+  }
+
+  .chair-panel {
+    position: static;
+    padding: 28px;
+  }
+
+  .chair-stage {
+    height: 390px;
+  }
+
+  .chair-stage img {
+    max-width: 88%;
+    max-height: 86%;
+  }
+
+  .gallery-dots {
+    margin-top: 14px;
+  }
+
+  .color-image-card {
+    min-width: 108px;
+    flex: 0 0 108px;
+  }
+
+  .color-image-card img {
+    height: 92px;
+  }
+
+  .models-grid,
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -34,6 +34,10 @@ export default function Navbar() {
           Produits
         </NavLink>
 
+        <NavLink to="/chaises" onClick={closeMenu}>
+          Chaises
+        </NavLink>
+
         <NavLink to="/sur-mesure" onClick={closeMenu}>
           Sur mesure
         </NavLink>
