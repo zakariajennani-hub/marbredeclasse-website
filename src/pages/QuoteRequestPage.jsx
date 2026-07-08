@@ -39,11 +39,12 @@ export default function QuoteRequestPage() {
 
   const isSurMesureOrder = order?.mode === "sur_mesure";
   const isChairOrder = order?.orderType === "chair";
+  const isFabricatedTableOrder = order?.orderType === "fabricated-table";
 
   const getOrderValue = () => {
     if (!order) return 0;
 
-    if (isChairOrder) {
+    if (isChairOrder || isFabricatedTableOrder) {
       return Number(order.total || 0);
     }
 
@@ -57,8 +58,8 @@ export default function QuoteRequestPage() {
   const getProductName = () => {
     if (!order) return "Demande de devis";
 
-    if (isChairOrder) {
-      return order.productName || "Chaise";
+    if (isChairOrder || isFabricatedTableOrder) {
+      return order.productName || "Table en travertin";
     }
 
     if (isSurMesureOrder) {
@@ -71,7 +72,7 @@ export default function QuoteRequestPage() {
   const getProductId = () => {
     if (!order) return "";
 
-    if (isChairOrder) {
+    if (isChairOrder || isFabricatedTableOrder) {
       return order.productId || "";
     }
 
@@ -85,8 +86,8 @@ export default function QuoteRequestPage() {
   const getProductCategory = () => {
     if (!order) return "";
 
-    if (isChairOrder) {
-      return order.category || "Chaise";
+    if (isChairOrder || isFabricatedTableOrder) {
+      return order.category || "tables";
     }
 
     if (isSurMesureOrder) {
@@ -98,12 +99,15 @@ export default function QuoteRequestPage() {
 
   const getLeadSource = () => {
     if (isChairOrder) return "chair";
+    if (isFabricatedTableOrder) return "fabricated_table";
+    if (isFabricatedTableOrder) return "fabricated_table";
     if (isSurMesureOrder) return "sur_mesure";
     return "quote-success";
   };
 
   const getWhatsAppSource = () => {
     if (isChairOrder) return "chair";
+    if (isFabricatedTableOrder) return "fabricated_table";
     if (isSurMesureOrder) return "sur_mesure";
     return "devis";
   };
