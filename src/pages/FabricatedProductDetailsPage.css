@@ -1,192 +1,659 @@
 .fabricated-details-page {
   min-height: 100vh;
-  padding: 155px 6vw 80px;
-  background: #f7f3ee;
+  padding: 150px 6vw 90px;
+  background:
+    radial-gradient(circle at top left, rgba(214, 173, 73, 0.16), transparent 32%),
+    linear-gradient(180deg, #f8f4ec 0%, #ffffff 48%, #f6f1e8 100%);
   color: #111;
+  position: relative;
+  overflow-x: hidden;
 }
 
+/* FLOATING WHATSAPP */
+.floating-whatsapp-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 200;
+  border: none;
+  cursor: pointer;
+  min-width: 155px;
+  height: 54px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 950;
+  box-shadow: 0 18px 45px rgba(37, 211, 102, 0.35);
+  transition: 0.25s ease;
+}
+
+.floating-whatsapp-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 60px rgba(37, 211, 102, 0.45);
+}
+
+/* MAIN LAYOUT */
 .luxury-product-layout {
-  width: min(1320px, 100%);
+  width: min(1360px, 100%);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.08fr 0.92fr;
-  gap: 52px;
+  gap: 54px;
   align-items: start;
 }
 
+/* GALLERY */
 .luxury-gallery {
   display: grid;
-  gap: 16px;
+  gap: 18px;
+  min-width: 0;
 }
 
 .luxury-main-image {
   background: #fff;
-  border-radius: 30px;
+  border-radius: 34px;
   overflow: hidden;
-  border: 1px solid rgba(200, 156, 61, 0.18);
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(200, 156, 61, 0.2);
+  box-shadow: 0 28px 80px rgba(35, 25, 10, 0.1);
+  position: relative;
+  min-height: 520px;
+}
+
+.luxury-main-image::before {
+  content: "Fabrication sur mesure";
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  background: rgba(17, 17, 17, 0.82);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.7px;
+}
+
+.color-count-badge {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 5;
+  background: #d6ad49;
+  color: #111;
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: 0 10px 24px rgba(214, 173, 73, 0.25);
 }
 
 .luxury-main-image img {
   width: 100%;
-  height: 620px;
+  height: 640px;
   object-fit: contain;
   background: #fff;
-  padding: 18px;
+  padding: 22px;
   display: block;
 }
 
 .luxury-thumbs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: nowrap;
   gap: 14px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding: 4px 2px 14px;
+
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.luxury-thumbs::-webkit-scrollbar {
+  height: 8px;
+}
+
+.luxury-thumbs::-webkit-scrollbar-thumb {
+  background: #c89c3d;
+  border-radius: 999px;
 }
 
 .luxury-thumbs button {
-  height: 110px;
+  flex: 0 0 140px;
+  width: 140px;
+  min-width: 140px;
+  height: 112px;
+
   border: 2px solid transparent;
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
   padding: 0;
+
   background: #fff;
   cursor: pointer;
+
+  box-shadow: 0 12px 34px rgba(35, 25, 10, 0.06);
+  transition: 0.25s ease;
+}
+
+.luxury-thumbs button:hover {
+  transform: translateY(-3px);
 }
 
 .luxury-thumbs button.active {
   border-color: #c89c3d;
+  box-shadow: 0 16px 40px rgba(200, 156, 61, 0.18);
 }
 
 .luxury-thumbs img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 6px;
-  background: #fff;
+  object-fit: cover;
+  display: block;
 }
 
+/* RIGHT PANEL */
 .luxury-product-info {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(200, 156, 61, 0.18);
-  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(200, 156, 61, 0.22);
+  border-radius: 34px;
   padding: 38px;
   position: sticky;
-  top: 150px;
+  top: 145px;
+  box-shadow: 0 28px 80px rgba(35, 25, 10, 0.08);
+  min-width: 0;
 }
 
 .luxury-category {
+  display: inline-flex;
   color: #b8923f;
-  font-size: 12px;
-  letter-spacing: 4px;
+  background: rgba(214, 173, 73, 0.12);
+  border: 1px solid rgba(214, 173, 73, 0.25);
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 3px;
   font-weight: 950;
 }
 
 .luxury-product-info h1 {
-  margin: 16px 0 16px;
-  font-size: clamp(36px, 4vw, 52px);
-  line-height: 1;
-  letter-spacing: -1.5px;
+  margin: 18px 0 14px;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 0.98;
+  letter-spacing: -1.7px;
   font-weight: 950;
-}
-
-.luxury-price {
-  color: #c89c3d;
-  font-size: 30px;
-  font-weight: 950;
-  margin: 18px 0 20px;
+  color: #111;
 }
 
 .luxury-short-description {
   color: #626262;
   font-size: 16px;
   line-height: 1.8;
-  margin-bottom: 22px;
+  margin: 0 0 22px;
+}
+/* ===========================
+   PRICE BOX
+=========================== */
+
+.luxury-price-box {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(17, 17, 17, 0.96), rgba(49, 38, 18, 0.96)),
+    radial-gradient(circle at top right, rgba(214, 173, 73, 0.26), transparent 35%);
+  color: #fff;
+  border-radius: 28px;
+  padding: 24px;
+  margin: 22px 0 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 58px rgba(17, 17, 17, 0.18);
 }
 
-.luxury-highlights {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 24px 0 28px;
+.luxury-old-price {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 18px;
+  font-weight: 900;
+  text-decoration: line-through;
+  margin-bottom: 8px;
 }
 
-.luxury-highlights span {
-  background: #fff;
-  border: 1px solid rgba(200, 156, 61, 0.18);
-  border-radius: 16px;
-  padding: 13px 14px;
+.luxury-price {
+  color: #d6ad49;
+  font-size: clamp(34px, 4vw, 46px);
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: -1px;
+}
+
+.luxury-discount {
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  background: #d6ad49;
+  color: #111;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.luxury-price-box p {
+  color: rgba(255, 255, 255, 0.76);
+  margin: 12px 0 0;
   font-size: 14px;
   font-weight: 800;
 }
+
+/* ===========================
+   CONFIG BOXES
+=========================== */
+
+.luxury-config-box {
+  background: #fff;
+  border: 1px solid rgba(200, 156, 61, 0.2);
+  border-radius: 24px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 12px 34px rgba(35, 25, 10, 0.045);
+}
+
+.luxury-config-box label {
+  display: block;
+  color: #111;
+  font-size: 15px;
+  font-weight: 950;
+  margin-bottom: 12px;
+}
+
+.luxury-config-box select {
+  width: 100%;
+  border: 1px solid #e4d8c3;
+  background: #fbf8f2;
+  color: #111;
+  border-radius: 18px;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 850;
+  outline: none;
+  cursor: pointer;
+}
+
+.luxury-config-box select:focus {
+  border-color: #c89c3d;
+  box-shadow: 0 0 0 4px rgba(200, 156, 61, 0.13);
+}
+
+.luxury-config-box small {
+  display: block;
+  color: #8a6a25;
+  margin-top: 10px;
+  font-weight: 850;
+  line-height: 1.5;
+}
+
+/* ===========================
+   CHAIR COUNT
+=========================== */
+
+.chair-count-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.chair-count-grid button {
+  border: 1px solid #e5d8c3;
+  background: #fbf8f2;
+  color: #111;
+  border-radius: 16px;
+  padding: 14px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 950;
+  transition: 0.25s ease;
+}
+
+.chair-count-grid button:hover {
+  transform: translateY(-2px);
+  border-color: #c89c3d;
+}
+
+.chair-count-grid button.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+/* ===========================
+   COLOR PICKER
+=========================== */
+
+.color-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.color-title-row strong {
+  color: #b88920;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.table-color-gallery,
+.table-chair-color-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 4px 18px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-color-gallery > *,
+.table-chair-color-scroll > * {
+  flex-shrink: 0;
+}
+
+.table-color-gallery::-webkit-scrollbar,
+.table-chair-color-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-color-gallery::-webkit-scrollbar-thumb,
+.table-chair-color-scroll::-webkit-scrollbar-thumb {
+  background: #d6ad49;
+  border-radius: 999px;
+}
+
+.table-chair-color-card,
+.luxury-color-gallery-card {
+  flex: 0 0 135px;
+  width: 135px;
+  min-width: 135px;
+  min-height: 165px;
+  border: 2px solid transparent;
+  background: #fff;
+  border-radius: 18px;
+  padding: 12px;
+  cursor: pointer;
+  transition: .25s;
+  box-shadow: 0 10px 28px rgba(30,20,10,.06);
+}
+
+.table-chair-color-card:hover,
+.luxury-color-gallery-card:hover {
+  transform: translateY(-4px);
+}
+
+.table-chair-color-card.active,
+.luxury-color-gallery-card.active {
+  border-color: #d6ad49;
+  box-shadow: 0 18px 36px rgba(214,173,73,.25);
+}
+
+.table-chair-color-card img,
+.luxury-color-gallery-card img {
+  width: 100%;
+  height: 105px;
+  object-fit: contain;
+  display: block;
+}
+
+.table-chair-color-card span,
+.luxury-color-gallery-card span {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: #111;
+}
+/* ===========================
+   QUANTITY
+=========================== */
+
+.quantity-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: #fbf8f2;
+  border: 1px solid #e5d8c3;
+  border-radius: 999px;
+  padding: 8px;
+}
+
+.quantity-control button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  transition: .25s;
+}
+
+.quantity-control button:hover {
+  transform: scale(1.06);
+}
+
+.quantity-control strong {
+  min-width: 34px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+/* ===========================
+   INCLUDES
+=========================== */
+
+.luxury-includes {
+  background: #fff;
+  border: 1px solid rgba(200, 156, 61, 0.2);
+  border-radius: 24px;
+  padding: 20px;
+  margin: 18px 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.luxury-includes h3 {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.luxury-includes span {
+  color: #222;
+  background: #fbf8f2;
+  border-radius: 14px;
+  padding: 12px 13px;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+/* ===========================
+   BUY BUTTON
+=========================== */
 
 .luxury-buy-btn {
   width: 100%;
   border: none;
   background: linear-gradient(135deg, #d6ad49, #b88920);
   color: #fff;
-  min-height: 58px;
+  min-height: 62px;
   border-radius: 999px;
   font-size: 18px;
   font-weight: 950;
   cursor: pointer;
+  box-shadow: 0 18px 42px rgba(184, 137, 32, 0.28);
+  transition: 0.25s ease;
 }
 
+.luxury-buy-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 58px rgba(184, 137, 32, 0.36);
+}
+
+/* ===========================
+   ORDER FORM
+=========================== */
+
 .luxury-order-form {
-  margin-top: 18px;
+  margin-top: 22px;
   display: grid;
-  gap: 12px;
+  gap: 14px;
   background: #fff;
-  padding: 18px;
-  border-radius: 22px;
-  border: 1px solid rgba(200, 156, 61, 0.2);
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(200, 156, 61, 0.18);
+  box-shadow: 0 12px 35px rgba(35, 25, 10, 0.05);
 }
 
 .luxury-order-form input {
   width: 100%;
-  border: 1px solid #ddd;
+  border: 1px solid #e4d8c3;
   border-radius: 16px;
-  padding: 15px;
+  padding: 16px;
+  background: #fbf8f2;
+  font-size: 15px;
   font-weight: 700;
+  outline: none;
+}
+
+.luxury-order-form input:focus {
+  border-color: #c89c3d;
+  box-shadow: 0 0 0 4px rgba(200, 156, 61, 0.12);
+}
+
+.luxury-form-error {
+  color: #c62828;
+  font-weight: 800;
+  font-size: 14px;
 }
 
 .luxury-order-form button {
   border: none;
+  border-radius: 16px;
+  min-height: 56px;
   background: #111;
   color: #fff;
-  border-radius: 16px;
-  padding: 15px;
-  font-weight: 950;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 950;
+  transition: .25s;
 }
 
+.luxury-order-form button:hover:not(:disabled) {
+  background: #000;
+}
+
+.luxury-order-form button:disabled {
+  opacity: .7;
+  cursor: wait;
+}
+
+/* ===========================
+   FABRICATION PROCESS
+=========================== */
+
+.luxury-process-section {
+  width: min(1360px, 100%);
+  margin: 70px auto;
+}
+
+.luxury-process-section h2 {
+  text-align: center;
+  font-size: clamp(34px,4vw,48px);
+  margin-bottom: 40px;
+  font-weight: 950;
+  letter-spacing: -1px;
+}
+
+.luxury-process-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 28px;
+}
+
+.luxury-process-grid div {
+  background: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(200,156,61,.18);
+  box-shadow: 0 20px 60px rgba(30,20,10,.07);
+  transition: .28s;
+}
+
+.luxury-process-grid div:hover {
+  transform: translateY(-8px);
+}
+
+.luxury-process-grid img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.luxury-process-grid h3 {
+  padding: 24px 24px 10px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 950;
+}
+
+.luxury-process-grid p {
+  padding: 0 24px 26px;
+  margin: 0;
+  color: #666;
+  line-height: 1.7;
+}
+/* ===========================
+   DETAILS
+=========================== */
+
 .luxury-product-extra {
-  width: min(1320px, 100%);
-  margin: 50px auto 0;
+  width: min(1360px, 100%);
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: 32px;
 }
 
 .luxury-details-table,
 .luxury-care {
   background: #fff;
-  border-radius: 28px;
-  padding: 30px;
-  border: 1px solid rgba(200, 156, 61, 0.18);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.05);
+  border-radius: 30px;
+  padding: 34px;
+  border: 1px solid rgba(200,156,61,.18);
+  box-shadow: 0 18px 50px rgba(35,25,10,.05);
 }
 
 .luxury-details-table h2,
 .luxury-care h2 {
-  font-size: 28px;
-  margin: 0 0 22px;
+  margin: 0 0 24px;
+  font-size: 30px;
+  font-weight: 950;
 }
 
 .luxury-details-table div {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 170px 1fr;
   gap: 20px;
-  padding: 15px 0;
-  border-bottom: 1px solid #eee;
+  padding: 18px 0;
+  border-bottom: 1px solid #ececec;
 }
 
 .luxury-details-table div:last-child {
@@ -195,7 +662,7 @@
 
 .luxury-details-table span {
   color: #777;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .luxury-details-table strong {
@@ -203,8 +670,8 @@
 }
 
 .luxury-care details {
-  border-bottom: 1px solid #eee;
-  padding: 16px 0;
+  border-bottom: 1px solid #ececec;
+  padding: 18px 0;
 }
 
 .luxury-care details:last-child {
@@ -213,31 +680,32 @@
 
 .luxury-care summary {
   cursor: pointer;
-  font-weight: 950;
   font-size: 18px;
+  font-weight: 950;
 }
 
 .luxury-care p {
+  margin: 14px 0;
   color: #666;
-  line-height: 1.75;
-  margin: 12px 0;
+  line-height: 1.8;
 }
 
 .luxury-warning {
   color: #b00020 !important;
-  font-weight: 850;
-}
-
-.fabricated-not-found {
-  padding: 160px 20px;
-  text-align: center;
-  font-size: 28px;
   font-weight: 900;
 }
 
-@media (max-width: 980px) {
-  .luxury-product-layout,
-  .luxury-product-extra {
+/* NOT FOUND */
+.fabricated-not-found {
+  padding: 180px 20px;
+  text-align: center;
+  font-size: 34px;
+  font-weight: 950;
+}
+
+/* TABLET */
+@media (max-width: 1100px) {
+  .luxury-product-layout {
     grid-template-columns: 1fr;
   }
 
@@ -245,26 +713,369 @@
     position: static;
   }
 
+  .luxury-process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .luxury-product-extra {
+    grid-template-columns: 1fr;
+  }
+
+  .luxury-main-image {
+    min-height: 420px;
+  }
+
   .luxury-main-image img {
-    height: 460px;
+    height: 500px;
   }
 }
 
-@media (max-width: 650px) {
+/* MOBILE */
+@media (max-width: 720px) {
   .fabricated-details-page {
-    padding: 135px 18px 60px;
+    padding: 130px 18px 80px;
   }
+
+  .luxury-main-image {
+    min-height: 300px;
+  }
+
+  .luxury-main-image img {
+    height: 340px;
+    padding: 12px;
+  }
+
+  .luxury-main-image::before {
+    top: 12px;
+    left: 12px;
+    font-size: 10px;
+    padding: 8px 11px;
+  }
+
+  .color-count-badge {
+    right: 12px;
+    top: 52px;
+    font-size: 10px;
+    padding: 8px 11px;
+  }
+
+  .luxury-thumbs{
+    display:flex;
+    flex-wrap:nowrap;          /* يمنع النزول لسطر جديد */
+    gap:16px;
+
+    overflow-x:auto;           /* سحب أفقي */
+    overflow-y:hidden;
+
+    padding:8px 4px 16px;
+
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+}
+
+.luxury-thumbs::-webkit-scrollbar{
+    height:8px;
+}
+
+.luxury-thumbs::-webkit-scrollbar-thumb{
+    background:#d6ad49;
+    border-radius:999px;
+}
 
   .luxury-product-info {
-    padding: 26px;
+    padding: 24px;
   }
 
-  .luxury-highlights {
+  .luxury-includes {
     grid-template-columns: 1fr;
+  }
+
+  .chair-count-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .table-chair-color-card {
+    flex: 0 0 120px;
+    min-height: 155px;
+  }
+
+  .table-chair-color-card img {
+    height: 100px;
+  }
+
+  .color-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .quantity-control {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .luxury-process-grid img {
+    height: 220px;
   }
 
   .luxury-details-table div {
     grid-template-columns: 1fr;
     gap: 6px;
+  }
+
+  .floating-whatsapp-btn {
+    display: none !important;
+  }
+}
+
+
+/* =========================================================
+   FINAL PRODUCT PAGE OVERRIDES
+   - Hide floating WhatsApp
+   - Hide category badge above settings
+   - Horizontal color galleries
+   - Mobile refinements
+========================================================= */
+
+/* Hide the floating green WhatsApp button completely */
+.floating-whatsapp-btn {
+  display: none !important;
+}
+
+/* Hide "TABLE EN TRAVERTIN" badge above the configuration */
+.luxury-category {
+  display: none !important;
+}
+
+/* Main image stays clean and stable */
+.luxury-main-image {
+  overflow: hidden;
+}
+
+.luxury-main-image img {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* Product color thumbnails under the main image:
+   one horizontal row with side scroll */
+.luxury-color-gallery {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 16px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 12px 4px 18px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.luxury-color-gallery::-webkit-scrollbar {
+  height: 8px;
+}
+
+.luxury-color-gallery::-webkit-scrollbar-thumb {
+  background: #d6ad49;
+  border-radius: 999px;
+}
+
+.luxury-color-gallery-card {
+  flex: 0 0 150px !important;
+  width: 150px !important;
+  min-width: 150px !important;
+  min-height: 172px;
+  border: 2px solid transparent;
+  background: #fff;
+  border-radius: 22px;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 10px 28px rgba(30, 20, 10, 0.06);
+}
+
+.luxury-color-gallery-card:hover {
+  transform: translateY(-4px);
+}
+
+.luxury-color-gallery-card.active {
+  border-color: #d6ad49;
+  box-shadow: 0 18px 36px rgba(214, 173, 73, 0.25);
+}
+
+.luxury-color-gallery-card img {
+  width: 100%;
+  height: 105px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+  background: #fff;
+}
+
+.luxury-color-gallery-card span {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: #111;
+}
+
+/* Chair color picker inside the right panel:
+   one horizontal row with side scroll */
+.table-chair-color-scroll {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 14px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 10px 4px 18px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-chair-color-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-chair-color-scroll::-webkit-scrollbar-thumb {
+  background: #d6ad49;
+  border-radius: 999px;
+}
+
+.table-chair-color-card {
+  flex: 0 0 135px !important;
+  width: 135px !important;
+  min-width: 135px !important;
+}
+
+.table-chair-color-card img {
+  object-fit: contain;
+}
+
+/* Old thumbs, if still rendered, are horizontal too */
+.luxury-thumbs {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 14px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 6px 2px 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.luxury-thumbs button {
+  flex: 0 0 140px !important;
+  width: 140px !important;
+  min-width: 140px !important;
+}
+
+/* Details section spacing after the main configuration */
+.luxury-product-extra {
+  margin-top: 42px;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .luxury-product-layout {
+    gap: 34px;
+  }
+
+  .luxury-main-image img {
+    height: 500px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  .fabricated-details-page {
+    padding: 118px 14px 72px;
+  }
+
+  .luxury-product-layout {
+    gap: 22px;
+  }
+
+  .luxury-main-image {
+    border-radius: 26px;
+    min-height: 300px;
+  }
+
+  .luxury-main-image img {
+    height: 340px;
+    padding: 10px;
+  }
+
+  .luxury-main-image::before {
+    font-size: 9px;
+    padding: 7px 10px;
+  }
+
+  .color-count-badge {
+    top: 50px;
+    right: 10px;
+    font-size: 9px;
+    padding: 7px 10px;
+  }
+
+  .luxury-color-gallery {
+    gap: 12px;
+    padding: 10px 2px 16px;
+  }
+
+  .luxury-color-gallery-card {
+    flex: 0 0 128px !important;
+    width: 128px !important;
+    min-width: 128px !important;
+    min-height: 148px;
+    border-radius: 20px;
+    padding: 10px;
+  }
+
+  .luxury-color-gallery-card img {
+    height: 88px;
+    border-radius: 12px;
+  }
+
+  .luxury-color-gallery-card span {
+    font-size: 12px;
+  }
+
+  .table-chair-color-card {
+    flex: 0 0 118px !important;
+    width: 118px !important;
+    min-width: 118px !important;
+    min-height: 150px;
+  }
+
+  .table-chair-color-card img {
+    height: 92px;
+  }
+
+  .luxury-product-info {
+    padding: 22px;
+    border-radius: 28px;
+  }
+
+  .luxury-product-info h1 {
+    font-size: 38px;
+  }
+
+  .luxury-config-box {
+    padding: 18px;
+  }
+
+  .luxury-price {
+    font-size: 38px;
+  }
+
+  .luxury-includes {
+    grid-template-columns: 1fr;
+  }
+
+  .quantity-control {
+    width: 100%;
+    justify-content: center;
   }
 }

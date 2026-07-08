@@ -17,11 +17,24 @@ import DevisSuccessPage from "./pages/DevisSuccessPage";
 import SurMesureListPage from "./pages/SurMesureListPage";
 import SurMesurePage from "./pages/SurMesurePage";
 import AdminQuotesPage from "./pages/AdminQuotesPage";
+import ChairsPage from "./pages/ChairsPage";
 
 import { initAnalytics, trackPageView } from "./utils/analytics";
 import { initClarity } from "./utils/clarity";
 
-import ChairsPage from "./pages/ChairsPage";
+function ScrollToTop() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, [location.pathname, location.search]);
+
+  return null;
+}
 
 function RouteChangeTracker() {
   const location = useLocation();
@@ -41,11 +54,13 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <RouteChangeTracker />
       <Navbar />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
 
@@ -61,17 +76,17 @@ export default function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/qui-sommes-nous" element={<AboutPage />} />
+
         <Route path="/admin/quotes" element={<AdminQuotesPage />} />
 
         <Route
           path="/politique-confidentialite"
           element={<PrivacyPolicyPage />}
         />
-
         <Route path="/conditions-utilisation" element={<TermsPage />} />
+
         <Route path="/chaises" element={<ChairsPage />} />
-        <Route path="/chaises" element={<ChairsPage />} />
-<Route path="/chaises/:chairId" element={<ChairsPage />} />
+        <Route path="/chaises/:chairId" element={<ChairsPage />} />
       </Routes>
     </BrowserRouter>
   );
