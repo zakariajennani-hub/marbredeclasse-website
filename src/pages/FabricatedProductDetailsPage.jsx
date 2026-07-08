@@ -11,13 +11,51 @@ import {
 
 import "./FabricatedProductDetailsPage.css";
 
-const BASE_LENGTH = 160;
-const BASE_WIDTH = 90;
-const BASE_TABLE_ONLY_PRICE = 4900;
 const BASE_SET_PRICE = 9899;
+const DEFAULT_MEASURE_KEY = "160x90";
 const DEFAULT_CHAIRS = 6;
+
+const TABLE_MEASURES = [
+  {
+    key: "120x80",
+    length: 120,
+    width: 80,
+    label: "120×80 cm — 4 personnes",
+    tableOnlyPrice: 3699,
+    recommendedChairs: 4,
+  },
+  {
+    key: "160x90",
+    length: 160,
+    width: 90,
+    label: "160×90 cm — Standard — 6 personnes",
+    tableOnlyPrice: 4799,
+    recommendedChairs: 6,
+  },
+  {
+    key: "200x100",
+    length: 200,
+    width: 100,
+    label: "200×100 cm — 8 personnes",
+    tableOnlyPrice: 6999,
+    recommendedChairs: 8,
+  },
+  {
+    key: "240x120",
+    length: 240,
+    width: 120,
+    label: "240×120 cm — 10 personnes",
+    tableOnlyPrice: 9988,
+    recommendedChairs: 10,
+  },
+];
+
+const DEFAULT_MEASURE =
+  TABLE_MEASURES.find((measure) => measure.key === DEFAULT_MEASURE_KEY) ||
+  TABLE_MEASURES[0];
+
 const CHAIR_UNIT_PRICE =
-  (BASE_SET_PRICE - BASE_TABLE_ONLY_PRICE) / DEFAULT_CHAIRS;
+  (BASE_SET_PRICE - DEFAULT_MEASURE.tableOnlyPrice) / DEFAULT_CHAIRS;
 
 const chairColors = [
   { id: 1, name: "Noir" },
@@ -47,18 +85,6 @@ function getTableChairImage(colorId) {
   return `/images/tables/travertin-set/table-chair-${colorId}.png`;
 }
 
-function calculateLengthExtra(length) {
-  if (length <= BASE_LENGTH) return 0;
-
-  if (length <= 200) {
-    return Math.ceil((length - BASE_LENGTH) / 10) * 500;
-  }
-
-  const extraUntil200 = 4 * 500;
-  const extraAfter200 = Math.ceil((length - 200) / 10) * 800;
-
-  return extraUntil200 + extraAfter200;
-}
 
 export default function FabricatedProductDetailsPage() {
   const { id } = useParams();
@@ -77,23 +103,20 @@ export default function FabricatedProductDetailsPage() {
     getTableChairImage(defaultColor.id)
   );
 
-  const [tableLength, setTableLength] = useState(160);
+  const [selectedMeasureKey, setSelectedMeasureKey] = useState(DEFAULT_MEASURE_KEY);
+  const [chairCount, setChairCount] = useState(DEFAULT_CHAIRS);
   const [quantity, setQuantity] = useState(1);
 
   const chairColor = selectedChairColor.name;
-  const chairCount = 6;
 
-  const lengthExtra = useMemo(
-    () => calculateLengthExtra(Number(tableLength)),
-    [tableLength]
-  );
+  const selectedMeasure =
+    TABLE_MEASURES.find((measure) => measure.key === selectedMeasureKey) ||
+    DEFAULT_MEASURE;
 
   const currentUnitPrice = useMemo(() => {
-    const tablePrice = BASE_TABLE_ONLY_PRICE + lengthExtra;
     const chairsPrice = chairCount * CHAIR_UNIT_PRICE;
-
-    return Math.round(tablePrice + chairsPrice);
-  }, [lengthExtra, chairCount]);
+    return Math.round(selectedMeasure.tableOnlyPrice + chairsPrice);
+  }, [selectedMeasure.tableOnlyPrice, chairCount]);
 
   const totalPrice = currentUnitPrice * quantity;
   const originalPrice = Math.round(totalPrice / 0.65);
@@ -132,6 +155,16 @@ export default function FabricatedProductDetailsPage() {
   }
 
 
+
+  function handleMeasureChange(measureKey) {
+    const nextMeasure =
+      TABLE_MEASURES.find((measure) => measure.key === measureKey) ||
+      DEFAULT_MEASURE;
+
+    setSelectedMeasureKey(nextMeasure.key);
+    setChairCount(nextMeasure.recommendedChairs);
+  }
+
   function buildOrderData() {
     return {
       orderType: "fabricated-table",
@@ -153,13 +186,16 @@ export default function FabricatedProductDetailsPage() {
       discount: "35%",
       unit: product.unit || "DH",
       quantity,
-      mesure: `${tableLength}×${BASE_WIDTH} cm`,
-      longueur: `${tableLength} cm`,
-      largeur: `${BASE_WIDTH} cm`,
+      mesure: `${selectedMeasure.length}×${selectedMeasure.width} cm`,
+      mesureLabel: selectedMeasure.label,
+      longueur: `${selectedMeasure.length} cm`,
+      largeur: `${selectedMeasure.width} cm`,
       plateau: "Marbre Travertin",
       pieds: "Marbre Travertin",
       chaises: chairCount,
       chairCount,
+      recommendedChairs: selectedMeasure.recommendedChairs,
+      tableOnlyPrice: selectedMeasure.tableOnlyPrice,
       color: chairColor,
       couleur_chaises: chairColor,
       couleur_chaises_id: selectedChairColor.id,
@@ -232,28 +268,18 @@ export default function FabricatedProductDetailsPage() {
           <h1>{product.name}</h1>
 
           <div className="luxury-config-box">
-            <label>Longueur de la table</label>
+            <label>Mesure de la table</label>
 
             <select
-              value={tableLength}
-              onChange={(e) => setTableLength(Number(e.target.value))}
+              value={selectedMeasureKey}
+              onChange={(e) => handleMeasureChange(e.target.value)}
             >
-              <option value={160}>160×90 cm — Standard</option>
-              <option value={170}>170×90 cm</option>
-              <option value={180}>180×90 cm</option>
-              <option value={190}>190×90 cm</option>
-              <option value={200}>200×90 cm</option>
-              <option value={210}>210×90 cm</option>
-              <option value={220}>220×90 cm</option>
-              <option value={230}>230×90 cm</option>
-              <option value={240}>240×90 cm</option>
+              {TABLE_MEASURES.map((measure) => (
+                <option key={measure.key} value={measure.key}>
+                  {measure.label}
+                </option>
+              ))}
             </select>
-
-            {lengthExtra > 0 && (
-              <small>
-                Supplément longueur : +{lengthExtra.toLocaleString("fr-FR")} DH
-              </small>
-            )}
           </div>
 
           <div className="luxury-config-box">
@@ -284,21 +310,21 @@ export default function FabricatedProductDetailsPage() {
             </div>
           </div> 
                     <div className="luxury-config-box">
-            <label>Quantité</label>
+            <label>Nombre de chaises</label>
 
             <div className="quantity-control">
               <button
                 type="button"
-                onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+                onClick={() => setChairCount((prev) => Math.max(0, prev - 1))}
               >
                 -
               </button>
 
-              <strong>{quantity}</strong>
+              <strong>{chairCount}</strong>
 
               <button
                 type="button"
-                onClick={() => setQuantity((prev) => prev + 1)}
+                onClick={() => setChairCount((prev) => prev + 1)}
               >
                 +
               </button>
@@ -332,7 +358,7 @@ export default function FabricatedProductDetailsPage() {
 
             <span>✓ Plateau</span>
             <span>✓ Pieds</span>
-            <span>✓ 6 chaises</span>
+            <span>✓ {chairCount} chaises</span>
             <span>✓ Garantie 1 an</span>
           </div>
         </div>
@@ -345,7 +371,7 @@ export default function FabricatedProductDetailsPage() {
           <div>
             <span>Mesure</span>
             <strong>
-              {tableLength}×{BASE_WIDTH} cm
+              {selectedMeasure.length}×{selectedMeasure.width} cm
             </strong>
           </div>
 
@@ -356,7 +382,7 @@ export default function FabricatedProductDetailsPage() {
 
           <div>
             <span>Chaises</span>
-            <strong>6 chaises — couleur {chairColor}</strong>
+            <strong>{chairCount} chaises — couleur {chairColor}</strong>
           </div>
 
           <div>
