@@ -31,12 +31,16 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink to="/produits" onClick={closeMenu}>
-          Produits
-        </NavLink>
+  Tables
+</NavLink>
 
-        <NavLink to="/chaises" onClick={closeMenu}>
-          Chaises
-        </NavLink>
+<NavLink to="/vasques/configurateur" onClick={closeMenu}>
+  Vasques
+</NavLink>
+
+<NavLink to="/chaises" onClick={closeMenu}>
+  Chaises
+</NavLink>
 
         <NavLink to="/sur-mesure" onClick={closeMenu}>
           Sur mesure
@@ -51,9 +55,7 @@ export default function Navbar() {
         </NavLink>
       </nav>
 
-      <Link to="/devis" className="navbar-quote-btn" onClick={closeMenu}>
-        Demander un devis
-      </Link>
+    
     </header>
   );
 }

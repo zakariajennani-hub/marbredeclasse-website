@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-
+import VasqueConfiguratorPage from "./pages/VasqueConfiguratorPage";
 import Navbar from "./modules/layout/Navbar";
 
 import HomePage from "./pages/HomePage";
@@ -63,7 +63,10 @@ export default function App() {
 
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
-
+<Route
+  path="/vasques/configurateur"
+  element={<VasqueConfiguratorPage />}
+/>
         <Route path="/sur-mesure" element={<SurMesureListPage />} />
         <Route path="/sur-mesure/:slug" element={<SurMesurePage />} />
 

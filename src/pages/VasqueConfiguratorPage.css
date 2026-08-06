@@ -1,0 +1,236 @@
+.vasque-page{
+    width:100%;
+    background:#f8f8f8;
+    padding:150px 20px 60px;
+    box-sizing:border-box;
+}
+
+.vasque-container{
+    max-width:1400px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 520px;
+    gap:60px;
+    align-items:start;
+}
+
+.vasque-left{
+    background:#ffffff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+}
+
+.vasque-image{
+    width:100%;
+    display:block;
+}
+
+.vasque-right{
+    background:#ffffff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+    position:sticky;
+    top:25px;
+}
+
+.vasque-right h1{
+    margin:0;
+    font-size:34px;
+    font-weight:700;
+    color:#222;
+}
+
+.rating{
+    margin-top:12px;
+    font-size:20px;
+}
+
+.price{
+    margin-top:20px;
+    font-size:30px;
+    font-weight:700;
+    color:#111;
+}
+
+.features{
+    margin:25px 0;
+    padding-left:18px;
+}
+
+.features li{
+    margin-bottom:10px;
+    color:#444;
+    line-height:1.6;
+}
+
+hr{
+    border:none;
+    border-top:1px solid #ececec;
+    margin:30px 0;
+}
+
+.dimension-row{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.dimension-row label{
+    width:120px;
+    font-weight:600;
+}
+
+.dimension-row input{
+    width:120px;
+    height:48px;
+    border:1px solid #dcdcdc;
+    border-radius:10px;
+    padding:0 12px;
+    font-size:17px;
+}
+
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:17px;
+}
+
+.checkbox input{
+    width:20px;
+    height:20px;
+}
+
+.radio{
+    margin-bottom:12px;
+}
+
+.radio label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+}
+
+.city-select{
+    width:100%;
+    margin-top:15px;
+    height:52px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    padding:0 14px;
+    font-size:16px;
+}
+
+.summary{
+    background:#fafafa;
+    border-radius:15px;
+    padding:22px;
+}
+
+.summary h3{
+    margin-top:0;
+    margin-bottom:20px;
+}
+
+.summary-line{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:14px;
+    font-size:16px;
+}
+
+.summary-total{
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid #ddd;
+    padding-top:18px;
+    margin-top:20px;
+    font-size:22px;
+    font-weight:700;
+}
+
+.devis-button{
+    width:100%;
+    margin-top:30px;
+    height:60px;
+    border:none;
+    border-radius:14px;
+    background:#111;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.devis-button:hover{
+    background:#333;
+}
+
+@media(max-width:992px){
+
+    .vasque-container{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .vasque-right{
+
+        position:relative;
+        top:0;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .vasque-page{
+
+        padding:20px 10px;
+
+    }
+
+    .vasque-right{
+
+        padding:22px;
+
+    }
+
+    .vasque-right h1{
+
+        font-size:28px;
+
+    }
+
+    .price{
+
+        font-size:26px;
+
+    }
+
+    .dimension-row{
+
+        flex-direction:column;
+        align-items:flex-start;
+
+    }
+
+    .dimension-row label{
+
+        width:100%;
+
+    }
+
+    .dimension-row input{
+
+        width:100%;
+
+    }
+
+}
