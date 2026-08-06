@@ -22,7 +22,28 @@ export default function QuoteRequestPage() {
   const [formError, setFormError] = useState("");
 
   useEffect(() => {
-    const savedOrder = localStorage.getItem("marbre_devis_order");
+    const vasqueOrder = localStorage.getItem("vasqueOrder");
+
+  if (vasqueOrder) {
+    try {
+      const vasque = JSON.parse(vasqueOrder);
+
+      setOrder({
+        orderType: "vasque",
+        productName: "Vasque sur mesure",
+        productId: "vasque-sur-mesure",
+        category: "vasques",
+        total: vasque.totalPrice,
+        ...vasque,
+      });
+
+      return;
+    } catch {
+      localStorage.removeItem("vasqueOrder");
+    }
+  }
+
+  const savedOrder = localStorage.getItem("marbre_devis_order");
 
     if (savedOrder) {
       try {
@@ -40,9 +61,26 @@ export default function QuoteRequestPage() {
   const isSurMesureOrder = order?.mode === "sur_mesure";
   const isChairOrder = order?.orderType === "chair";
   const isFabricatedTableOrder = order?.orderType === "fabricated-table";
+  const isVasqueOrder = order?.orderType === "vasque";
 
   const getOrderValue = () => {
     if (!order) return 0;
+
+    if (isVasqueOrder) {
+      return Number(order.total || 0);
+    }
+
+    if (isVasqueOrder) {
+      return "Vasque sur mesure";
+    }
+
+    if (isVasqueOrder) {
+      return "vasque-sur-mesure";
+    }
+
+    if (isVasqueOrder) {
+      return "vasques";
+    }
 
     if (isChairOrder || isFabricatedTableOrder) {
       return Number(order.total || 0);
