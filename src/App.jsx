@@ -18,7 +18,7 @@ import SurMesureListPage from "./pages/SurMesureListPage";
 import SurMesurePage from "./pages/SurMesurePage";
 import AdminQuotesPage from "./pages/AdminQuotesPage";
 import ChairsPage from "./pages/ChairsPage";
-
+import TableAMangerPage from "./pages/TableAMangerPage";
 import { initAnalytics, trackPageView } from "./utils/analytics";
 import { initClarity } from "./utils/clarity";
 
@@ -63,6 +63,7 @@ export default function App() {
 
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
+        <Route path="/table-a-manger" element={<TableAMangerPage />} />
 <Route
   path="/vasques/configurateur"
   element={<VasqueConfiguratorPage />}

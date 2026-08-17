@@ -46,9 +46,9 @@ export default function Navbar() {
           Sur mesure
         </NavLink>
 
-        <NavLink to="/services" onClick={closeMenu}>
-          Nos services
-        </NavLink>
+        <NavLink to="/table-a-manger" onClick={closeMenu}>
+  Table à manger
+</NavLink>
 
         <NavLink to="/contact" onClick={closeMenu}>
           Contactez-nous

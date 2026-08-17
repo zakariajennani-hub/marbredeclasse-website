@@ -1,0 +1,1278 @@
+/* =========================================================
+   TABLE A MANGER PAGE
+========================================================= */
+
+.table-a-manger-page {
+  min-height: 100vh;
+  padding: 150px 6vw 90px;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(214, 173, 73, 0.16),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #f8f4ec 0%,
+      #ffffff 48%,
+      #f6f1e8 100%
+    );
+
+  color: #111;
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.table-a-manger-page .luxury-product-layout {
+  width: min(1360px, 100%);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 54px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   LEFT GALLERY
+========================================================= */
+
+.table-a-manger-page .luxury-gallery {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+
+/* =========================================================
+   MAIN IMAGE
+========================================================= */
+
+.table-a-manger-page .luxury-main-image {
+  position: relative;
+
+  width: 100%;
+  min-height: 520px;
+
+  background: #fff;
+
+  border-radius: 34px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(200, 156, 61, 0.2);
+
+  box-shadow:
+    0 28px 80px rgba(35, 25, 10, 0.1);
+}
+
+
+/* Fabrication badge */
+
+.table-a-manger-page .luxury-main-image::before {
+  content: "Fabrication sur mesure";
+
+  position: absolute;
+
+  top: 18px;
+  left: 18px;
+
+  z-index: 5;
+
+  background: rgba(17, 17, 17, 0.84);
+
+  color: #fff;
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 950;
+
+  letter-spacing: 0.7px;
+
+  backdrop-filter: blur(8px);
+}
+
+
+/* 17 colors badge */
+
+.table-a-manger-page .color-count-badge {
+  position: absolute;
+
+  right: 20px;
+  top: 20px;
+
+  z-index: 5;
+
+  background: #d6ad49;
+
+  color: #111;
+
+  padding: 9px 15px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  box-shadow:
+    0 10px 24px rgba(214, 173, 73, 0.25);
+}
+
+
+/* Main product image */
+
+.table-a-manger-page .luxury-main-image img {
+  width: 100%;
+  height: 640px;
+
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: #fff;
+
+  padding: 22px;
+}
+
+
+/* =========================================================
+   RIGHT PRODUCT PANEL
+========================================================= */
+
+.table-a-manger-page .luxury-product-info {
+  position: sticky;
+  top: 145px;
+
+  min-width: 0;
+
+  padding: 38px;
+
+  background: rgba(255, 255, 255, 0.86);
+
+  backdrop-filter: blur(14px);
+
+  border:
+    1px solid rgba(200, 156, 61, 0.22);
+
+  border-radius: 34px;
+
+  box-shadow:
+    0 28px 80px rgba(35, 25, 10, 0.08);
+}
+
+
+/* =========================================================
+   PRODUCT TITLE
+========================================================= */
+
+.table-a-manger-page .luxury-product-info h1 {
+  margin: 0 0 14px;
+
+  color: #111;
+
+  font-size: clamp(38px, 4vw, 56px);
+
+  line-height: 1;
+
+  letter-spacing: -1.7px;
+
+  font-weight: 950;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.table-a-manger-page .luxury-short-description {
+  margin: 0 0 24px;
+
+  color: #626262;
+
+  font-size: 16px;
+
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   CONFIGURATION BOXES
+========================================================= */
+
+.table-a-manger-page .luxury-config-box {
+  margin-bottom: 16px;
+
+  padding: 20px;
+
+  background: #fff;
+
+  border:
+    1px solid rgba(200, 156, 61, 0.2);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 12px 34px rgba(35, 25, 10, 0.045);
+}
+
+
+/* Labels */
+
+.table-a-manger-page .luxury-config-box label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #111;
+
+  font-size: 15px;
+
+  font-weight: 950;
+}
+
+
+/* =========================================================
+   TABLE SIZE SELECT
+========================================================= */
+
+.table-a-manger-page .luxury-config-box select {
+  width: 100%;
+
+  border:
+    1px solid #e4d8c3;
+
+  background: #fbf8f2;
+
+  color: #111;
+
+  border-radius: 18px;
+
+  padding: 16px;
+
+  font-size: 15px;
+
+  font-weight: 850;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+
+.table-a-manger-page .luxury-config-box select:hover {
+  border-color: #c89c3d;
+}
+
+
+.table-a-manger-page .luxury-config-box select:focus {
+  border-color: #c89c3d;
+
+  box-shadow:
+    0 0 0 4px rgba(200, 156, 61, 0.13);
+}
+
+
+/* =========================================================
+   SMALL INFO
+========================================================= */
+
+.table-a-manger-page .luxury-config-box small {
+  display: block;
+
+  margin-top: 12px;
+
+  color: #8a6a25;
+
+  font-size: 12px;
+
+  font-weight: 850;
+
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   COLOR HEADER
+========================================================= */
+
+.table-a-manger-page .color-title-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 14px;
+}
+
+
+.table-a-manger-page .color-title-row label {
+  margin-bottom: 0;
+}
+
+
+.table-a-manger-page .color-title-row strong {
+  color: #b88920;
+
+  font-size: 14px;
+
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   CHAIR COLORS HORIZONTAL SCROLLER
+========================================================= */
+
+.table-a-manger-page .table-chair-color-scroll {
+  display: flex;
+
+  flex-wrap: nowrap;
+
+  gap: 14px;
+
+  width: 100%;
+
+  overflow-x: auto;
+
+  overflow-y: hidden;
+
+  padding:
+    10px 4px 18px;
+
+  scroll-behavior: smooth;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.table-a-manger-page
+.table-chair-color-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+
+.table-a-manger-page
+.table-chair-color-scroll::-webkit-scrollbar-thumb {
+  background: #d6ad49;
+
+  border-radius: 999px;
+}
+
+
+.table-a-manger-page
+.table-chair-color-scroll::-webkit-scrollbar-track {
+  background: #f1eadf;
+
+  border-radius: 999px;
+}
+
+
+/* =========================================================
+   CHAIR COLOR CARD
+========================================================= */
+
+.table-a-manger-page .table-chair-color-card {
+  flex: 0 0 135px;
+
+  width: 135px;
+
+  min-width: 135px;
+
+  min-height: 165px;
+
+  padding: 12px;
+
+  border:
+    2px solid transparent;
+
+  border-radius: 18px;
+
+  background: #fff;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+
+  box-shadow:
+    0 10px 28px rgba(30, 20, 10, 0.06);
+}
+
+
+.table-a-manger-page .table-chair-color-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 16px 34px rgba(30, 20, 10, 0.1);
+}
+
+
+/* Selected chair color */
+
+.table-a-manger-page
+.table-chair-color-card.active {
+  border-color: #d6ad49;
+
+  box-shadow:
+    0 18px 36px rgba(214, 173, 73, 0.25);
+}
+
+
+/* Chair image */
+
+.table-a-manger-page
+.table-chair-color-card img {
+  width: 100%;
+
+  height: 105px;
+
+  display: block;
+
+  object-fit: contain;
+
+  background: #fff;
+
+  border-radius: 12px;
+}
+
+
+/* Chair color name */
+
+.table-a-manger-page
+.table-chair-color-card span {
+  display: block;
+
+  margin-top: 10px;
+
+  color: #111;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   NUMBER OF CHAIRS
+========================================================= */
+
+.table-a-manger-page .quantity-control {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  background: #fbf8f2;
+
+  border:
+    1px solid #e5d8c3;
+
+  border-radius: 999px;
+
+  padding: 8px;
+}
+
+
+/* Plus / Minus */
+
+.table-a-manger-page .quantity-control button {
+  width: 42px;
+
+  height: 42px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #111;
+
+  color: #fff;
+
+  cursor: pointer;
+
+  font-size: 22px;
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  transition: 0.25s ease;
+}
+
+
+.table-a-manger-page
+.quantity-control button:hover {
+  transform: scale(1.07);
+
+  background: #000;
+}
+
+
+.table-a-manger-page
+.quantity-control strong {
+  min-width: 34px;
+
+  text-align: center;
+
+  color: #111;
+
+  font-size: 18px;
+
+  font-weight: 950;
+}
+
+
+/* =========================================================
+   PRICE BOX
+========================================================= */
+
+.table-a-manger-page .luxury-price-box {
+  position: relative;
+
+  margin:
+    22px 0 24px;
+
+  padding: 24px;
+
+  overflow: hidden;
+
+  color: #fff;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(17, 17, 17, 0.97),
+      rgba(49, 38, 18, 0.97)
+    );
+
+  box-shadow:
+    0 24px 58px rgba(17, 17, 17, 0.18);
+}
+
+
+/* Decorative gold light */
+
+.table-a-manger-page
+.luxury-price-box::before {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+
+  height: 190px;
+
+  right: -80px;
+
+  top: -100px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(214, 173, 73, 0.16);
+
+  filter: blur(10px);
+}
+
+
+/* Old price */
+
+.table-a-manger-page .luxury-old-price {
+  position: relative;
+
+  z-index: 2;
+
+  margin-bottom: 8px;
+
+  color:
+    rgba(255, 255, 255, 0.62);
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  text-decoration: line-through;
+}
+
+
+/* Current price */
+
+.table-a-manger-page .luxury-price {
+  position: relative;
+
+  z-index: 2;
+
+  color: #d6ad49;
+
+  font-size:
+    clamp(34px, 4vw, 46px);
+
+  line-height: 1;
+
+  font-weight: 950;
+
+  letter-spacing: -1px;
+}
+
+
+/* Discount */
+
+.table-a-manger-page .luxury-discount {
+  position: absolute;
+
+  right: 22px;
+
+  top: 22px;
+
+  z-index: 3;
+
+  background: #d6ad49;
+
+  color: #111;
+
+  border-radius: 999px;
+
+  padding: 10px 14px;
+
+  font-size: 14px;
+
+  font-weight: 950;
+}
+
+
+/* Saving */
+
+.table-a-manger-page .luxury-price-box p {
+  position: relative;
+
+  z-index: 2;
+
+  margin:
+    12px 0 0;
+
+  color:
+    rgba(255, 255, 255, 0.76);
+
+  font-size: 14px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   BUY BUTTON
+========================================================= */
+
+.table-a-manger-page .luxury-buy-btn {
+  width: 100%;
+
+  min-height: 62px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #d6ad49,
+      #b88920
+    );
+
+  color: #fff;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  font-weight: 950;
+
+  box-shadow:
+    0 18px 42px
+    rgba(184, 137, 32, 0.28);
+
+  transition: 0.25s ease;
+}
+
+
+.table-a-manger-page
+.luxury-buy-btn:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 24px 58px
+    rgba(184, 137, 32, 0.36);
+}
+
+
+/* =========================================================
+   INCLUDED
+========================================================= */
+
+.table-a-manger-page .luxury-includes {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 12px;
+
+  margin:
+    18px 0 20px;
+
+  padding: 20px;
+
+  background: #fff;
+
+  border:
+    1px solid rgba(200, 156, 61, 0.2);
+
+  border-radius: 24px;
+}
+
+
+.table-a-manger-page
+.luxury-includes h3 {
+  grid-column:
+    1 / -1;
+
+  margin:
+    0 0 4px;
+
+  color: #111;
+
+  font-size: 18px;
+
+  font-weight: 950;
+}
+
+
+.table-a-manger-page
+.luxury-includes span {
+  padding:
+    12px 13px;
+
+  background: #fbf8f2;
+
+  color: #222;
+
+  border-radius: 14px;
+
+  font-size: 14px;
+
+  font-weight: 850;
+}
+
+
+/* =========================================================
+   PRODUCT DETAILS AREA
+========================================================= */
+
+.table-a-manger-page .luxury-product-extra {
+  width:
+    min(1360px, 100%);
+
+  margin:
+    52px auto 0;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 32px;
+}
+
+
+/* =========================================================
+   DETAILS + CARE CARDS
+========================================================= */
+
+.table-a-manger-page
+.luxury-details-table,
+
+.table-a-manger-page
+.luxury-care {
+  padding: 34px;
+
+  background: #fff;
+
+  border-radius: 30px;
+
+  border:
+    1px solid
+    rgba(200, 156, 61, 0.18);
+
+  box-shadow:
+    0 18px 50px
+    rgba(35, 25, 10, 0.05);
+}
+
+
+/* Titles */
+
+.table-a-manger-page
+.luxury-details-table h2,
+
+.table-a-manger-page
+.luxury-care h2 {
+  margin:
+    0 0 24px;
+
+  color: #111;
+
+  font-size: 30px;
+
+  font-weight: 950;
+}
+
+
+/* =========================================================
+   DETAILS ROWS
+========================================================= */
+
+.table-a-manger-page
+.luxury-details-table > div {
+  display: grid;
+
+  grid-template-columns:
+    170px 1fr;
+
+  gap: 20px;
+
+  padding:
+    18px 0;
+
+  border-bottom:
+    1px solid #ececec;
+}
+
+
+.table-a-manger-page
+.luxury-details-table > div:last-child {
+  border-bottom: none;
+}
+
+
+.table-a-manger-page
+.luxury-details-table span {
+  color: #777;
+
+  font-weight: 900;
+}
+
+
+.table-a-manger-page
+.luxury-details-table strong {
+  color: #111;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   CARE
+========================================================= */
+
+.table-a-manger-page
+.luxury-care details {
+  padding:
+    18px 0;
+
+  border-bottom:
+    1px solid #ececec;
+}
+
+
+.table-a-manger-page
+.luxury-care details:last-child {
+  border-bottom: none;
+}
+
+
+.table-a-manger-page
+.luxury-care summary {
+  color: #111;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  font-weight: 950;
+}
+
+
+.table-a-manger-page
+.luxury-care p {
+  margin:
+    14px 0;
+
+  color: #666;
+
+  line-height: 1.8;
+}
+
+
+.table-a-manger-page
+.luxury-warning {
+  color: #b00020 !important;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .table-a-manger-page {
+    padding:
+      135px 5vw 80px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-product-layout {
+    grid-template-columns: 1fr;
+
+    gap: 34px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-product-info {
+    position: static;
+  }
+
+
+  .table-a-manger-page
+  .luxury-main-image {
+    min-height: 420px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-main-image img {
+    height: 520px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-product-extra {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 720px) {
+
+  .table-a-manger-page {
+    padding:
+      118px 14px 72px;
+  }
+
+
+  /* Main layout */
+
+  .table-a-manger-page
+  .luxury-product-layout {
+    gap: 22px;
+  }
+
+
+  /* Main image */
+
+  .table-a-manger-page
+  .luxury-main-image {
+    min-height: 300px;
+
+    border-radius: 26px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-main-image img {
+    height: 340px;
+
+    padding: 10px;
+  }
+
+
+  /* Fabrication badge */
+
+  .table-a-manger-page
+  .luxury-main-image::before {
+    top: 12px;
+
+    left: 10px;
+
+    padding:
+      7px 10px;
+
+    font-size: 9px;
+  }
+
+
+  /* 17 colors badge */
+
+  .table-a-manger-page
+  .color-count-badge {
+    top: 48px;
+
+    right: 10px;
+
+    padding:
+      7px 10px;
+
+    font-size: 9px;
+  }
+
+
+  /* Right panel */
+
+  .table-a-manger-page
+  .luxury-product-info {
+    padding: 22px;
+
+    border-radius: 28px;
+  }
+
+
+  /* Title */
+
+  .table-a-manger-page
+  .luxury-product-info h1 {
+    font-size: 38px;
+
+    letter-spacing: -1px;
+  }
+
+
+  /* Description */
+
+  .table-a-manger-page
+  .luxury-short-description {
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+
+  /* Config boxes */
+
+  .table-a-manger-page
+  .luxury-config-box {
+    padding: 18px;
+  }
+
+
+  /* Color title */
+
+  .table-a-manger-page
+  .color-title-row {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 6px;
+  }
+
+
+  .table-a-manger-page
+  .color-title-row strong {
+    white-space: normal;
+  }
+
+
+  /* Chair scroller */
+
+  .table-a-manger-page
+  .table-chair-color-scroll {
+    gap: 12px;
+
+    padding:
+      10px 2px 16px;
+  }
+
+
+  /* Chair cards */
+
+  .table-a-manger-page
+  .table-chair-color-card {
+    flex:
+      0 0 118px;
+
+    width: 118px;
+
+    min-width: 118px;
+
+    min-height: 150px;
+
+    padding: 10px;
+  }
+
+
+  .table-a-manger-page
+  .table-chair-color-card img {
+    height: 92px;
+  }
+
+
+  .table-a-manger-page
+  .table-chair-color-card span {
+    font-size: 12px;
+  }
+
+
+  /* Quantity */
+
+  .table-a-manger-page
+  .quantity-control {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+
+  /* Price */
+
+  .table-a-manger-page
+  .luxury-price {
+    font-size: 38px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-discount {
+    right: 16px;
+
+    top: 18px;
+
+    padding:
+      8px 11px;
+
+    font-size: 12px;
+  }
+
+
+  /* Includes */
+
+  .table-a-manger-page
+  .luxury-includes {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Details */
+
+  .table-a-manger-page
+  .luxury-product-extra {
+    margin-top: 32px;
+
+    gap: 20px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-details-table,
+
+  .table-a-manger-page
+  .luxury-care {
+    padding: 24px;
+
+    border-radius: 26px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-details-table h2,
+
+  .table-a-manger-page
+  .luxury-care h2 {
+    font-size: 25px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-details-table > div {
+    grid-template-columns: 1fr;
+
+    gap: 6px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .table-a-manger-page {
+    padding-left: 10px;
+
+    padding-right: 10px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-main-image img {
+    height: 300px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-product-info {
+    padding: 18px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-product-info h1 {
+    font-size: 33px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-price-box {
+    padding: 20px;
+  }
+
+
+  .table-a-manger-page
+  .luxury-price {
+    font-size: 34px;
+  }
+
+}
